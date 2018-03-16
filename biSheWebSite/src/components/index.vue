@@ -9,7 +9,7 @@
                 position:relative;
                 width:100%;
                 height:20rem;
-                background: url("../assets/icon/index-banner1.jpg") no-repeat;
+                background: url("../assets/icon/index-banner1.png") no-repeat;
                 background-size:100% 100%;
                 .job-search-form{
                     position:absolute;
@@ -286,6 +286,21 @@
                 }
             }
             //求职类别
+            .company-icon{
+                width:70%;
+                margin:1rem auto;
+                background-color:#FFFFFF;
+                border-radius:3px;
+                padding:1rem ;
+                overflow: auto;
+                .company-ul{
+                    .company-ul-option{
+                        float: left;
+                        margin-left:1rem;
+                        cursor:pointer;
+                    }
+                }
+            }
         }
     }
 }
@@ -385,8 +400,34 @@
                     <li class="type-ul-option option-li">规划设计</li>
                     <li class="type-ul-option option-li">房产经纪人</li>
                 </ul>
+                <ul class="type-ul">
+                    <li class="type-ul-option option-title title-realestate">房地产</li>
+                    <li class="type-ul-option option-li">造价师</li>
+                    <li class="type-ul-option option-li">规划设计</li>
+                    <li class="type-ul-option option-li">房产经纪人</li>
+                </ul>
             </div>
-       </div>
+            <div class="company-icon">
+                <ul class="company-ul">
+                    <li class="company-ul-option"><a href='http://www.bbac.com.cn/'><img src="../assets/company-icon/benchu.gif"/></a></li>
+                    <li class="company-ul-option"><a href='http://www.cdii.com.cn/'><img src="../assets/company-icon/cdii.gif"/>  </a></li>
+                    <li class="company-ul-option"><a href='http://job.10086.cn/index.action'><img src="../assets/company-icon/dongy.gif"/> </a></li>
+
+                    <li class="company-ul-option"><a href='http://job.icbc.com.cn/ICBC/人才招聘/default.htm'><img src="../assets/company-icon/gongshang.gif"/></a></li>
+                    <li class="company-ul-option"><a href='http://www.cgbchina.com.cn/Channel/11581868'><img src="../assets/company-icon/guangfa.gif" /> </a></li>
+                    <li class="company-ul-option"><a href='http://www.jala.com.cn/choice.html'><img src="../assets/company-icon/jialan.gif" />  </a></li>
+
+                    <li class="company-ul-option"><a href='http://m.51mdd.com/'><img src="../assets/company-icon/miduoduo.gif"/></a></li>
+                    <li class="company-ul-option"><a href='http://job.abchina.com/rio/index.do?action=openHome'><img src="../assets/company-icon/nongye.gif" /> </a></li>
+                    <li class="company-ul-option"><a href='http://www.dearsamsung.com.cn/'><img src="../assets/company-icon/sanxing.gif"/> </a></li>
+                    
+                    <li class="company-ul-option"><a href='http://careers.suning.cn/'><img src="../assets/company-icon/sunin.gif"/></a></li>
+                    <li class="company-ul-option"><a href='http://www.thaihot.com.cn/hr_jmth.aspx'><img src="../assets/company-icon/taihe.gif"/></a></li>
+                    <li class="company-ul-option"><a href='http://www.ef.com.cn/ef360/'><img src="../assets/company-icon/yinfu.gif"/></a></li>
+                </ul>
+            </div>
+        </div>
+
     </div>
 </div>
 </template>

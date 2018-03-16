@@ -2,6 +2,7 @@
 <style lang="less" scoped>
 .home-page{
   .page-part{
+    position: relative;
     .navbar{
       width:70%;
       margin:0 auto;
@@ -10,9 +11,20 @@
         width: 57px;
       }
     }
+    .goBackTop{
+      position: fixed;
+      width:50px;
+      height:50px;
+      background:url(../assets/icon/goTop.png) center center #C1C1C1 no-repeat;
+      border-radius:1px;
+      bottom:10px;
+      right:150px;
+      cursor:pointer;
+    }
   }
   .page-content{
     clear: both;
+    position: relative;
   }
   .website-information{
     width:70%;
@@ -58,7 +70,7 @@
       <div class="page-part">
           <div class="page-title">
               <div class="navbar"> <!--导航-->
-              <img class="logo" src="../assets/logo.png" />
+              <img class="logo" src="../assets/logo.png" v-show="false" />
                   <el-menu
                     :default-active="1"
                     class="el-menu-demo"
@@ -106,6 +118,8 @@
                   <li class="information-ul-option option-li">简历中心</li>
               </ul>
           </div>
+          <div v-show="isShowBackTop" class="goBackTop" @click="goBackTop">
+          </div>
       </div>
     </div>
   </div>
@@ -116,15 +130,46 @@ import { accountLogin } from "../api/";
 export default {
   data() {
     return {
-
+        isShowBackTop:false,
     }
   },
   methods: {
-  
+    handleSelect(){
+
+    },
+    getScrollTop(){    
+      var scrollTop=0;    
+      if(document.documentElement&&document.documentElement.scrollTop){    
+          scrollTop=document.documentElement.scrollTop;    
+      }else if(document.body){    
+          scrollTop=document.body.scrollTop;    
+      }    
+      return scrollTop;    
+    },
+    scrollFunc(){
+        var scrollTop = this.getScrollTop();
+        if(scrollTop > 400){
+            this.isShowBackTop = true;
+        }else{
+           this.isShowBackTop = false;
+        }
+    },
+    goBackTop(){
+       this.pageScroll();
+    },
+    pageScroll() { 
+      window.scrollBy(0,-100); 
+      var scrollTop = this.getScrollTop();
+      var self = this;
+      if(scrollTop != 0){
+        setTimeout(function(){
+          self.pageScroll();
+        },100);
+      }
+    } 
   },
   mounted() {
-    
-        
+    document.addEventListener('scroll', this.scrollFunc, false);   
   }
 }
 </script>
