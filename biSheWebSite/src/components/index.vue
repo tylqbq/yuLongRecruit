@@ -352,10 +352,10 @@
                             </div>
                             <div class="login-part-input">
                                 <p class="dl-icon" @click="hidenLogin">登录</p>
-                                <input type="text" class="user-name"  placeholder="请输入帐号"/>
-                                <input type="password" class="user-psd" placeholder="请输入密码"/>
+                                <input type="text" class="user-name" v-model="params.userName"  placeholder="请输入帐号"/>
+                                <input type="password" class="user-psd" v-model="params.userPassword" placeholder="请输入密码"/>
                                 <p class="forget-psd">忘记密码？</p>
-                                <button class="btn">登录</button>
+                                <button class="btn" @click="userLogin">登录</button>
                             </div>
                         </div>
                     </div>
@@ -433,6 +433,7 @@
 </template>
 
 <script>
+import{ accountLogin } from "../api";
 export default {
     data(){
         return{
@@ -445,7 +446,11 @@ export default {
                 label:'公司',
                 value:'company'
             }],
-            input:''
+            input:'',
+            params:{
+                userName:'',
+                userPsd:''
+            }
         }
     },
     methods:{
@@ -454,6 +459,11 @@ export default {
         },
         hidenLogin(){
             this.isShowLogin = false;
+        },
+        userLogin(){
+            accountLogin(this.params).then(res => {
+                console.log(res);
+            });
         }
     }
 }

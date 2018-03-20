@@ -18,11 +18,11 @@ module.exports = {
             '^/welcome':'/welcome',
         }
       },
-      '/login':{
+      '/user':{
         target:'http://127.0.0.1:8060',
         changeOrigin:true,
         pathRewrite:{
-            '^/login':'/login',
+            '^/user':'/user',
         }
       },
       'test':{
