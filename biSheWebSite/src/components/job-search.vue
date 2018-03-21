@@ -7,7 +7,6 @@
             margin:1rem auto;
             overflow: auto;
             .job-filter{
-                overflow: hidden;
                 .important-condition{
                     width: 100%;
                     padding:20px 0 0 0;
@@ -28,14 +27,18 @@
                             border-right:1px solid rgba(0,0,0,0.1); 
                             cursor:pointer;
                             .condition-title{
+                                line-height:50px;
+                                margin: 0;
                                 font-size: 16px;
                                 text-indent: 15px;
                                 color: #636985;
                             }
                             .condition-content{
                                 padding: 0 15px;
+                                margin: 0;
                             }
                             .input-key{
+                                height:1rem;
                                 border:none;
                             }
                         }
@@ -49,7 +52,7 @@
                         }
                         .condition-industry{
                             width:15%;
-                            min-width:226px;
+                            min-width:213px;
                         }
                         .condition-function{
                             width:15%;
@@ -98,14 +101,13 @@
                     }
                 }
                 .other-condition{
-                    overflow: hidden;
                     border:1px solid rgba(0,0,0,0.1);
                     border-radius:2px;
                     font-size:12px;
+                    position: relative;
                     .condition{
                         padding-left:20px;
                         text-align: left;
-                        overflow: hidden;
                         border-bottom:1px dashed rgba(0,0,0,0.1);
                         .condition-ul{
                             list-style:none;
@@ -128,7 +130,47 @@
                         }
                         
                     }
+                    .condition-hiden{
+                        overflow: visible;
+                        .condition-last{
+                            border-bottom:none;
+                        }   
+                    }
+                    .hiden-tip{
+                        width:36%;
+                        height:20px;
+                        position: absolute;
+                        bottom: -21px;
+                        left:32%;
+                        color: rgba(0,0,0,0.6);;
+                        border:1px solid rgba(0,0,0,0.3);
+                        border-top:1px solid #f5f5f5;
+                        cursor:pointer;
+                        &:hover{
+                            color:rgba(255,140,0,1);
+                        }
+                        .arrow-up{
+                            position: absolute;
+                            top:6px;
+                            width: 15px;
+                            height: 7px;
+                            background:url(../assets/icon/list_icon.png) no-repeat ;
+                            background-position: -150px -80px;
+                        }
+                        .arrow-down{
+                            position: absolute;
+                            top:6px;
+                            width: 15px;
+                            height: 7px;
+                            background:url(../assets/icon/list_icon.png) no-repeat ;
+                            background-position: -170px -80px;
+                        }
+                    }
                 }
+            }
+            .job-result{
+                clear: both;
+                margin-top:20px;
             }
         }
     }
@@ -228,25 +270,78 @@
                             <el-radio label="0.8-1万"></el-radio>
                         </el-radio-group>
                     </div>
-                    <div class="condition">
-                        <span class="condition-title">公司性质：</span>
-                        <el-radio-group v-model="searchParams.companyType">
-                            <el-radio label="所有"></el-radio>
-                            <el-radio label="外资（欧美）"></el-radio>
-                            <el-radio label="外资（非欧美）"></el-radio>
-                            <el-radio label="合资"></el-radio>
-                            <el-radio label="国企"></el-radio>
-                            <el-radio label="民营公司"></el-radio>
-                            <el-radio label="外企代表处"></el-radio>
-                            <el-radio label="政府机关"></el-radio>
-                            <el-radio label="事业单位"></el-radio>
-                        </el-radio-group>
+                    <!--搜索条件 隐藏部分-->
+                    <div class="condition-hiden" v-if="isShowConditionHiden">
+                        <div class="condition">
+                            <span class="condition-title">公司性质：</span>
+                            <el-radio-group v-model="searchParams.companyType">
+                                <el-radio label="所有"></el-radio>
+                                <el-radio label="外资（欧美）"></el-radio>
+                                <el-radio label="外资（非欧美）"></el-radio>
+                                <el-radio label="合资"></el-radio>
+                                <el-radio label="国企"></el-radio>
+                                <el-radio label="民营公司"></el-radio>
+                                <el-radio label="外企代表处"></el-radio>
+                                <el-radio label="政府机关"></el-radio>
+                                <el-radio label="事业单位"></el-radio>
+                            </el-radio-group>
+                        </div>
+                        <div class="condition">
+                            <span class="condition-title">公司性质：</span>
+                            <el-radio-group v-model="searchParams.companyType">
+                                <el-radio label="所有"></el-radio>
+                                <el-radio label="外资（欧美）"></el-radio>
+                                <el-radio label="外资（非欧美）"></el-radio>
+                                <el-radio label="合资"></el-radio>
+                                <el-radio label="国企"></el-radio>
+                                <el-radio label="民营公司"></el-radio>
+                                <el-radio label="外企代表处"></el-radio>
+                                <el-radio label="政府机关"></el-radio>
+                                <el-radio label="事业单位"></el-radio>
+                            </el-radio-group>
+                        </div>
+                        <div class="condition">
+                            <span class="condition-title">公司性质：</span>
+                            <el-radio-group v-model="searchParams.companyType">
+                                <el-radio label="所有"></el-radio>
+                                <el-radio label="外资（欧美）"></el-radio>
+                                <el-radio label="外资（非欧美）"></el-radio>
+                                <el-radio label="合资"></el-radio>
+                                <el-radio label="国企"></el-radio>
+                                <el-radio label="民营公司"></el-radio>
+                                <el-radio label="外企代表处"></el-radio>
+                                <el-radio label="政府机关"></el-radio>
+                                <el-radio label="事业单位"></el-radio>
+                            </el-radio-group>
+                        </div>
+                        <div class="condition condition-last">
+                            <span class="condition-title">公司性质：</span>
+                            <el-radio-group v-model="searchParams.companyType">
+                                <el-radio label="所有"></el-radio>
+                                <el-radio label="外资（欧美）"></el-radio>
+                                <el-radio label="外资（非欧美）"></el-radio>
+                                <el-radio label="合资"></el-radio>
+                                <el-radio label="国企"></el-radio>
+                                <el-radio label="民营公司"></el-radio>
+                                <el-radio label="外企代表处"></el-radio>
+                                <el-radio label="政府机关"></el-radio>
+                                <el-radio label="事业单位"></el-radio>
+                            </el-radio-group>
+                        </div>
+                    </div>
+                     <div class="hiden-tip" @click="hidenMoreCondition">
+                         {{hidenInfo}}
+                         <em :class="isShowConditionHiden?'arrow-up':'arrow-down'"></em>
                     </div>
                 </div>
             </div>
             <!--查询结果-->
             <div class="job-result">
-                
+                <h2>sssssssssssssssssssss</h2>
+                <h2>sssssssssssssssssssss</h2>
+                <h2>sssssssssssssssssssss</h2>
+                <h2>sssssssssssssssssssss</h2>
+                <h2>sssssssssssssssssssss</h2>
             </div>
 
         </div>
@@ -260,11 +355,20 @@ export default {
       return{
           searchParams:{},
           date:'',
-          radio3:''
+          radio3:'',
+          isShowConditionHiden:true,
+          hidenInfo:"展开选项（公司性质、公司规模、工作年限等）"
       }
   },
   methods:{
-
+    hidenMoreCondition(){
+        this.isShowConditionHiden = !this.isShowConditionHiden;
+        if(this.isShowConditionHiden){
+            this.hidenInfo = "收起选项";
+        }else{
+            this.hidenInfo = "展开选项（公司性质、公司规模、工作年限等）";
+        }
+    }
   }
 }
 </script>

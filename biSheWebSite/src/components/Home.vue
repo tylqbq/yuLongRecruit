@@ -1,6 +1,7 @@
 <!--首页-->
 <style lang="less" scoped>
 .home-page{
+  background-color:#f5f5f5;
   .page-part{
     position: relative;
     .navbar{
