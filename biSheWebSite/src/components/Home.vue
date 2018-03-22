@@ -73,7 +73,7 @@
               <div class="navbar"> <!--导航-->
               <img class="logo" src="../assets/logo.png" v-show="false" />
                   <el-menu
-                    :default-active="1"
+                    default-active="index"
                     class="el-menu-demo"
                     mode="horizontal"
                     @select="handleSelect"

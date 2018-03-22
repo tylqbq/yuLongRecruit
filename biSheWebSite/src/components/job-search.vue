@@ -156,6 +156,10 @@
                             height: 7px;
                             background:url(../assets/icon/list_icon.png) no-repeat ;
                             background-position: -150px -80px;
+                            &:hover{
+                                background:url(../assets/icon/list_icon.png) no-repeat ;
+                                background-position: -150px -100px;
+                            }
                         }
                         .arrow-down{
                             position: absolute;
@@ -164,13 +168,22 @@
                             height: 7px;
                             background:url(../assets/icon/list_icon.png) no-repeat ;
                             background-position: -170px -80px;
+                            &:hover{
+                                background:url(../assets/icon/list_icon.png) no-repeat ;
+                                background-position: -170px -100px;
+                            }
                         }
                     }
                 }
             }
-            .job-result{
+            .jr-table{  
                 clear: both;
-                margin-top:20px;
+                margin-top:30px;
+                .salary{
+                    .cell .el-tooltip{
+                        color:rgba(255,140,0,1);
+                    }
+                }
             }
         }
     }
@@ -198,6 +211,25 @@
     }
     .el-radio__input.is-checked+.el-radio__label{
          color:rgba(255,140,0,1);
+    }
+    .el-table th>.cell{
+        text-align:center;
+    }
+    .el-table .cell{
+        a{
+            text-decoration:none;
+            color:rgba(0,0,0,0.7);
+        }
+    }
+    .jr-table{
+        .salary{
+            .el-table .cell.el-tooltip{
+                 color:rgba(255,140,0,1);
+            }
+            .cell .el-tooltip{
+                color:rgba(255,140,0,1);
+            }
+        }
     }
 }
     
@@ -233,7 +265,7 @@
                             <p class="condition-content">计算机软件</p>
                         </div>
                         <div class="condition condition-search">
-                           <button class="search-btn">搜索</button>
+                           <button class="search-btn" @click="search">搜索</button>
                         </div>
 
                     </div>
@@ -268,6 +300,11 @@
                             <el-radio label="3-4.5千"></el-radio>
                             <el-radio label="6-8千"></el-radio>
                             <el-radio label="0.8-1万"></el-radio>
+                            <el-radio label="1-1.5万"></el-radio>
+                            <el-radio label="1.5-2万"></el-radio>
+                            <el-radio label="2-3万"></el-radio>
+                            <el-radio label="3-4万"></el-radio>
+                            <el-radio label="4-5万"></el-radio>
                         </el-radio-group>
                     </div>
                     <!--搜索条件 隐藏部分-->
@@ -287,69 +324,115 @@
                             </el-radio-group>
                         </div>
                         <div class="condition">
-                            <span class="condition-title">公司性质：</span>
-                            <el-radio-group v-model="searchParams.companyType">
+                            <span class="condition-title">工作年限：</span>
+                            <el-radio-group v-model="searchParams.workTime">
                                 <el-radio label="所有"></el-radio>
-                                <el-radio label="外资（欧美）"></el-radio>
-                                <el-radio label="外资（非欧美）"></el-radio>
-                                <el-radio label="合资"></el-radio>
-                                <el-radio label="国企"></el-radio>
-                                <el-radio label="民营公司"></el-radio>
-                                <el-radio label="外企代表处"></el-radio>
-                                <el-radio label="政府机关"></el-radio>
-                                <el-radio label="事业单位"></el-radio>
+                                <el-radio label="无经验"></el-radio>
+                                <el-radio label="1-3年"></el-radio>
+                                <el-radio label="3-5年"></el-radio>
+                                <el-radio label="5-10年"></el-radio>
+                                <el-radio label="10年以上"></el-radio>
                             </el-radio-group>
                         </div>
                         <div class="condition">
-                            <span class="condition-title">公司性质：</span>
-                            <el-radio-group v-model="searchParams.companyType">
+                            <span class="condition-title">学历要求：</span>
+                            <el-radio-group v-model="searchParams.education">
                                 <el-radio label="所有"></el-radio>
-                                <el-radio label="外资（欧美）"></el-radio>
-                                <el-radio label="外资（非欧美）"></el-radio>
-                                <el-radio label="合资"></el-radio>
-                                <el-radio label="国企"></el-radio>
-                                <el-radio label="民营公司"></el-radio>
-                                <el-radio label="外企代表处"></el-radio>
-                                <el-radio label="政府机关"></el-radio>
-                                <el-radio label="事业单位"></el-radio>
+                                <el-radio label="初中及以下"></el-radio>
+                                <el-radio label="高中/中技/中专"></el-radio>
+                                <el-radio label="大专"></el-radio>
+                                <el-radio label="本科"></el-radio>
+                                <el-radio label="硕士"></el-radio>
+                                <el-radio label="博士"></el-radio>
+                            </el-radio-group>
+                        </div>
+                        <div class="condition">
+                            <span class="condition-title">公司规模：</span>
+                            <el-radio-group v-model="searchParams.staffNumber">
+                                <el-radio label="all">所有</el-radio>
+                                <el-radio label="少于50人"></el-radio>
+                                <el-radio label="50-150人"></el-radio>
+                                <el-radio label="150-500人"></el-radio>
+                                <el-radio label="500-1000人"></el-radio>
+                                <el-radio label="1000-5000人"></el-radio>
+                                <el-radio label="5000-10000人"></el-radio>
+                                <el-radio label="10000人以上 "></el-radio>
                             </el-radio-group>
                         </div>
                         <div class="condition condition-last">
-                            <span class="condition-title">公司性质：</span>
-                            <el-radio-group v-model="searchParams.companyType">
+                            <span class="condition-title">工作类型：</span>
+                            <el-radio-group v-model="searchParams.workType">
                                 <el-radio label="所有"></el-radio>
-                                <el-radio label="外资（欧美）"></el-radio>
-                                <el-radio label="外资（非欧美）"></el-radio>
-                                <el-radio label="合资"></el-radio>
-                                <el-radio label="国企"></el-radio>
-                                <el-radio label="民营公司"></el-radio>
-                                <el-radio label="外企代表处"></el-radio>
-                                <el-radio label="政府机关"></el-radio>
-                                <el-radio label="事业单位"></el-radio>
+                                <el-radio label="全职"></el-radio>
+                                <el-radio label="兼职"></el-radio>
+                                <el-radio label="实习全职"></el-radio>
+                                <el-radio label="实习兼职"></el-radio>
                             </el-radio-group>
                         </div>
                     </div>
                      <div class="hiden-tip" @click="hidenMoreCondition">
-                         {{hidenInfo}}
-                         <em :class="isShowConditionHiden?'arrow-up':'arrow-down'"></em>
+                         <span >{{hidenInfo}}<em :class="isShowConditionHiden?'arrow-up':'arrow-down'"></em></span>
                     </div>
                 </div>
             </div>
             <!--查询结果-->
-            <div class="job-result">
-                <h2>sssssssssssssssssssss</h2>
-                <h2>sssssssssssssssssssss</h2>
-                <h2>sssssssssssssssssssss</h2>
-                <h2>sssssssssssssssssssss</h2>
-                <h2>sssssssssssssssssssss</h2>
+            <div class="jr-table">
+                <el-table
+                    ref="multipleTable"
+                    :data="tableData3"
+                    tooltip-effect="dark"
+                    style="width: 100%"
+                    @selection-change="handleSelectionChange">
+                    <el-table-column
+                    type="selection"
+                    width="55">
+                    </el-table-column>
+                    <el-table-column
+                    label="职位名"
+                    width="250">
+                    <template slot-scope="scope"><a href="#">{{ scope.row.pisitonName }}</a></template>  
+                    </el-table-column>
+                    <el-table-column
+                    prop="companyName"
+                    label="公司名"
+                    width="250">
+                    <template slot-scope="scope"><a href="#">{{ scope.row.companyName }}</a></template>  
+                    </el-table-column>
+                    <el-table-column
+                    prop="workPlace"
+                    label="工作地点"
+                    width="220"
+                    show-overflow-tooltip>
+                    </el-table-column>
+                    <el-table-column
+                    class-name="salary"
+                    prop="salary"
+                    label="薪资"
+                    width="121" 
+                    show-overflow-tooltip>
+                    </el-table-column>
+                    <el-table-column
+                    prop="publishDate"
+                    label="发布时间"
+                    width="125"
+                    show-overflow-tooltip>
+                    </el-table-column>
+                </el-table>
+                <el-pagination
+                    @current-change="handleCurrentChange"
+                    :current-page.sync="pageParams.currentPage"
+                    :page-size="pageParams.pageSize"
+                    layout="prev, pager, next, jumper"
+                    :total="pageParams.total">
+                </el-pagination>
             </div>
-
         </div>
     </div>
 </div>
 </template>
 
 <script>
+import{ getGetRecruit } from "../api";
 export default {
   data(){
       return{
@@ -357,7 +440,55 @@ export default {
           date:'',
           radio3:'',
           isShowConditionHiden:true,
-          hidenInfo:"展开选项（公司性质、公司规模、工作年限等）"
+          hidenInfo:"展开选项（公司性质、公司规模、工作年限等）",
+          tableData3:[{
+                pisitonName: '抗体制备技术人员',
+                companyName: '重庆威力保生物技术有限公司',
+                workPlace: '重庆-九龙坡区',
+                salary:"5千-8千/月",
+                publishDate:'03-22'
+            }, {
+                pisitonName: '抗体制备技术人员',
+                companyName: '重庆威力保生物技术有限公司',
+                workPlace: '重庆-九龙坡区',
+                salary:"5千-8千/月",
+                publishDate:'03-22'
+            }, {
+                pisitonName: '抗体制备技术人员',
+                companyName: '重庆威力保生物技术有限公司',
+                workPlace: '重庆-九龙坡区',
+                salary:"5千-8千/月",
+                publishDate:'03-22'
+            }, {
+                pisitonName: '抗体制备技术人员',
+                companyName: '重庆威力保生物技术有限公司',
+                workPlace: '重庆-九龙坡区',
+                salary:"5千-8千/月",
+                publishDate:'03-22'
+            }, {
+                pisitonName: '抗体制备技术人员',
+                companyName: '重庆威力保生物技术有限公司',
+                workPlace: '重庆-九龙坡区',
+                salary:"5千-8千/月",
+                publishDate:'03-22'
+            }, {
+                pisitonName: '抗体制备技术人员',
+                companyName: '重庆威力保生物技术有限公司',
+                workPlace: '重庆-九龙坡区',
+                salary:"5千-8千/月",
+                publishDate:'03-22'
+            }, {
+                pisitonName: '抗体制备技术人员',
+                companyName: '重庆威力保生物技术有限公司',
+                workPlace: '重庆-九龙坡区',
+                salary:"5千-8千/月",
+                publishDate:'03-22'
+            }],
+            pageParams:{
+                total:1000,
+                pageSize:100,
+                currentPage:1,
+            }
       }
   },
   methods:{
@@ -368,6 +499,19 @@ export default {
         }else{
             this.hidenInfo = "展开选项（公司性质、公司规模、工作年限等）";
         }
+    },
+    handleCurrentChange(pageNumber){
+        this.pageParams.currentPage = pageNumber;
+    },
+    handleSelectionChange(){ //表格前面的复选框
+
+    },
+    search(){
+        var params = "";
+        getGetRecruit(params).then(res =>{
+            // console.log(res);
+            console.log(this.searchParams);
+        });
     }
   }
 }
