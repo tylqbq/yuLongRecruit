@@ -48,7 +48,14 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
-      inject: true
+      inject: true,
+      chunks: ['app']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'register.html',
+      template: 'register.html',
+      inject: true,
+      chunks: ['register']
     }),
   ]
 })

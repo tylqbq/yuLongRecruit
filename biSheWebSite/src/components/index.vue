@@ -348,7 +348,7 @@
                             </div>
                             <div class="login-part-btn">
                                 <button class="btn btn-login" @click="showLogin">登录</button>
-                                <button class="btn btn-register">注册</button>
+                                <a href="register.html"><button class="btn btn-register">注册</button></a>
                             </div>
                             <div class="login-part-input">
                                 <p class="dl-icon" @click="hidenLogin">登录</p>
@@ -359,7 +359,6 @@
                             </div>
                         </div>
                     </div>
-                   
                 </div>
             </div>
             <!--热门城市-->
@@ -468,9 +467,12 @@ export default {
         logout(){
             accountLogout().then(res =>{
                 console.log(res);
-            }  
-        );
-        }
+            });
+        },
+        // register(){
+        //     //  this.$router.push("register.html");
+        //     window.localtion.
+        // }
     }
 }
 </script>
