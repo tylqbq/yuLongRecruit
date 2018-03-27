@@ -21,6 +21,10 @@ const routes = [
         component: Home,
         children:[
           {
+            path:'/',
+            component:index
+          },
+          {
             path: 'index',
             component: index
           },{

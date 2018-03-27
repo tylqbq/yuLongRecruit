@@ -468,11 +468,7 @@ export default {
             accountLogout().then(res =>{
                 console.log(res);
             });
-        },
-        // register(){
-        //     //  this.$router.push("register.html");
-        //     window.localtion.
-        // }
+        }
     }
 }
 </script>
