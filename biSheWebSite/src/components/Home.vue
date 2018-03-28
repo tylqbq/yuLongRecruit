@@ -28,6 +28,7 @@
     position: relative;
   }
   .website-information{
+    clear: both;
     width:70%;
     margin:1rem auto;
     background-color:#FFFFFF;

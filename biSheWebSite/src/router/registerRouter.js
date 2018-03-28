@@ -14,12 +14,10 @@ const routes = [
       {
         path: '',
         component: registerPage,
-        children: [
-          {
-            path: 'login',
-            component: login,
-          }
-        ]
+      },
+      {
+        path: 'login',
+        component: login,
       }
     ]
   }

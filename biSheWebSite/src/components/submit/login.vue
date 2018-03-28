@@ -199,30 +199,22 @@
                     </div>
                     <div class="content-form">
                         <el-form ref="form" :model="form"  status-icon :rules="formRules" label-width="80px" label-position="top">
-                            <el-form-item label="手机号码" prop="phoneNumber">
-                                <el-input v-model="form.phoneNumber" placeholder="请输入手机号码，它将用于登录和找回密码"></el-input>
+                            <el-form-item label="帐号" prop="phoneNumber">
+                                <el-input v-model="form.phoneNumber" placeholder="请输入手机号码"></el-input>
                             </el-form-item>
                             <el-form-item label="密码" prop="password">
-                                <el-input type="password" v-model="form.password" placeholder="请输入密码，6到16位数字字母组合"></el-input>
-                            </el-form-item>
-                            <el-form-item label="重复密码" prop="repeatPassword">
-                                <el-input type="password" v-model="form.repeatPassword" placeholder="请输入和上面相同的密码"></el-input>
+                                <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
                             </el-form-item>
                             <el-form-item label="图形验证码" class="item-inline" prop="captcha">
                                 <el-input v-model="form.captcha"  placeholder="请输入验证码，点击图片可刷新"></el-input>
                                 <div class="item-code" @click="verificationCode">{{randomNumber}} </div>
                             </el-form-item>
-                            <el-form-item label="短信验证码" class="item-inline" prop="verificationCode">
-                                <el-input v-model="form.verificationCode"  placeholder="请输入短信验证码"></el-input>
-                                <el-button class="item-btn">发送验证码</el-button>
-                            </el-form-item>
-
                             <el-form-item class="item-submit">
-                                <el-button type="primary" @click="submitForm('form')">注册</el-button>
+                                <el-button type="primary" @click="login('form')">登录</el-button>
                             </el-form-item>
                         </el-form>
                         <div class="login">
-                            <p>已有玉龙招聘帐号，<span class="jump" @click="jump">直接登录</span></p>
+                            <p>还没有玉龙招聘帐号，<span class="jump" @click="jump">马上注册</span></p>
                         </div>
                     </div>
                 </div>
@@ -232,7 +224,7 @@
 </template>
 
 <script>
-import {accountRegister} from '../../api'
+import {accountLogin} from '../../api'
 export default {
     data() {
         var phoneNumberPass = (rule, value, callback) => {  //电话校验
@@ -265,20 +257,6 @@ export default {
                             callback();  
                         } 
                     } 
-                    
-                }
-            }
-        };
-        var repeatPasswordPass = (rule, value, callback) => {  //重复密码校验
-            if (value === '') {
-                callback(new Error('请重复输入密码'));
-            } else {
-                if (this.form.repeatPassword !== '') {
-                   if(value !== this.form.password){
-                        callback(new Error("请输入和上面相同的密码"));
-                   }else{
-                       callback();
-                   }
                 }
             }
         };
@@ -295,24 +273,11 @@ export default {
                 }
             }
         };
-        var verificationCodePass = (rule, value, callback) => { //手机验证码校验
-            if (value === '') {
-                callback(new Error('请输入手机验证码'));
-            } else {
-                if(value.length != 5){
-                    callback(new Error('请输入正确的手机验证码'));
-                }else{
-                    callback();
-                }
-            }
-        };
         return {
             form: {
                 phoneNumber: '',
                 password: '',
-                repeatPassword: '',
                 captcha: '',
-                verificationCode: ''
             },
             formRules:{
                 phoneNumber: [
@@ -321,14 +286,8 @@ export default {
                 password: [
                     { validator: passwordPass, trigger: 'blur' }
                 ],
-                repeatPassword: [
-                    { validator: repeatPasswordPass, trigger: 'blur' }
-                ],
                 captcha: [
                     { validator: captchaPass, trigger: 'blur' }
-                ],
-                verificationCode: [
-                    { validator: verificationCodePass, trigger: 'blur' }
                 ]
             },
             randomNumber:"232434",
@@ -343,13 +302,25 @@ export default {
             }
            this.randomNumber = randomNumber;
         },
-        //注册
-        submitForm(formName){
+        //登录
+        login(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    alert('submit!');
-                    accountRegister(this.form).then(res=>{
-                        console.log(res);
+                    let params = {
+                        phoneNumber:'',
+                        password:''
+                    };
+                    params.phoneNumber = this.form.phoneNumber;
+                    params.password = this.form.password;
+                    accountLogin(params).then(res=>{
+                        let data = res.data.data;
+                        if(res.data.status){
+                            localStorage.setItem("userName", data.name);
+					        localStorage.setItem("id",data.id);
+                            window.location.href = 'index.html';
+                        }else{
+                            alert(data.message);
+                        }
                     });
                 } else {
                     return false;
@@ -357,7 +328,7 @@ export default {
             });
         },
         jump(){
-             this.$router.push("/login");
+             this.$router.push("/");
         }
     },
     mounted(){

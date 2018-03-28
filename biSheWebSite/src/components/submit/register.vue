@@ -199,7 +199,7 @@
                     </div>
                     <div class="content-form">
                         <el-form ref="form" :model="form"  status-icon :rules="formRules" label-width="80px" label-position="top">
-                            <el-form-item label="手机号码" prop="phoneNumber">
+                            <el-form-item label="手机号" prop="phoneNumber">
                                 <el-input v-model="form.phoneNumber" placeholder="请输入手机号码，它将用于登录和找回密码"></el-input>
                             </el-form-item>
                             <el-form-item label="密码" prop="password">
@@ -349,7 +349,12 @@ export default {
                 if (valid) {
                     alert('submit!');
                     accountRegister(this.form).then(res=>{
-                        console.log(res);
+                        let data = res.data;
+                        if(data.status){
+                            this.$router.push(data.data);
+                        }else{
+                            alert(data.message);
+                        }
                     });
                 } else {
                     return false;

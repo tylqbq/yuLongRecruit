@@ -198,6 +198,76 @@
                             }
                         }
                     }  
+                    .resume{
+                        float: left;
+                        width: 25%;
+                        height: 180px;
+                        margin-left:1%;
+                        border-radius:3px;
+                        background:rgba(255,255,255,0.9);
+                        overflow: hidden;
+                        .wrap-up{
+                            position:relative;
+                            height: 360px;
+                            margin:20px 20px 0 20px;
+                            .title{
+                                height: 30px;
+                                line-height: 30px;
+                                color: #666;
+                                text-align: left;
+                                margin:10px 30px ;
+                                padding-left:30px;
+                                .man{
+                                    position: absolute;
+                                    width: 30px;
+                                    height: 30px;
+                                    top: 0;
+                                    left:20px;
+                                    background:url(../assets/icon/man.png) left center no-repeat;
+                                    background-size:100% 100%;
+                                }
+                            }
+                            .resume-btn{
+                                button{
+                                    display: inline-block;
+                                    min-width: 80px;
+                                    height: 28px;
+                                    line-height: 28px;
+                                    font-size: 14px;
+                                    font-family: "Microsoft YaHei";
+                                    text-align: center;
+                                    cursor: pointer;
+                                    margin: 0 10px;
+                                    border: 1px solid #ff6000;
+                                }
+                                .btn-re{
+                                    color: #fff;
+                                    background-color: #ff6000;
+                                }
+                                .btn-edit{
+                                    color: #ff6000;
+                                    background-color: #FFFFFF;
+                                }
+                            }
+                            .record{
+                                float: left;
+                                width: 50%;
+                                text-align: center;
+                                margin:15px 0 5px 0;
+                                p{
+                                    font-weight: normal;
+                                    font-size: 28px;
+                                    color:#ff6000;
+                                }
+                            }
+                            .outAccount{
+                                cursor:pointer;
+                                &:hover{
+                                    color:#ff6000;
+                                }
+                            }
+                        }
+                    }
                 }
             }
             //搜索框
@@ -340,7 +410,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="login-part">
+                    <div class="login-part" v-if="isShowLoginPart">
                         <div class="wrap-up" v-bind:class="isShowLogin?'show-login-part':''">
                             <div class="login-user-icon">
                                 <img src='../assets/icon/user-logo.png'/>
@@ -357,6 +427,24 @@
                                 <p class="forget-psd" @click="logout">忘记密码？</p>
                                 <button class="btn" @click="userLogin">登录</button>
                             </div>
+                        </div>
+                    </div>
+                    <div class="resume" v-else>
+                        <div class="wrap-up">
+                            <p class="title"><em class="man"></em>XXX的简历</p>
+                            <div class="resume-btn">
+                                <button class="btn-re">刷新简历</button>
+                                <button class="btn-edit">编辑简历</button>
+                                </div>
+                            <div class="record">
+                                <p>0</p>
+                                <span>谁看过我</span>
+                            </div>
+                            <div class="record">
+                                <p>0</p>
+                                <span>申请记录</span>
+                            </div>
+                            <span class="outAccount" @click="logout">退出帐号</span>
                         </div>
                     </div>
                 </div>
@@ -436,6 +524,7 @@ import{ accountLogin,accountLogout } from "../api";
 export default {
     data(){
         return{
+            isShowLoginPart:true,
             isShowLogin:false,
             searchType:'全文',
             options:[{
@@ -461,13 +550,28 @@ export default {
         },
         userLogin(){
             accountLogin(this.params).then(res => {
-                console.log(res);   
+                let data = res.data.data;
+                if(res.data.status){
+                    localStorage.setItem("userName", data.name);
+                    localStorage.setItem("id",data.id);
+                    window.location.reload();
+                }else{
+                    alert(data.message);
+                }
             });
         },
         logout(){
             accountLogout().then(res =>{
-                console.log(res);
+                localStorage.removeItem("userName");
+                localStorage.removeItem("id");
+                window.location.reload();
             });
+        }
+    },
+    mounted(){
+        let status = localStorage.getItem("userName");
+        if(status != null){ //已登录
+            this.isShowLoginPart = false;
         }
     }
 }

@@ -14,6 +14,24 @@ Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 Vue.prototype.$ajax = axios
 /* eslint-disable no-new */
+
+router.beforeEach((to, from, next) => {
+  let status = localStorage.getItem("userName");
+  if(to.path == '/personalCenter'){
+    if (status == "" || status == null) {  // 判断用户密码状态
+      // next({
+      //   path: 'register.html' 
+      // })
+      alert("请先登录！");
+      // window.location.href = "register.html";
+    }else {
+        next();
+    }
+  }else {
+        next();
+    }
+})
+
 new Vue({
   el: '#app',
   router,
