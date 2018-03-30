@@ -313,6 +313,8 @@
                         <div class="none">
                             <p>暂无企业查看你的简历，现在就去刷新简历，让企业更快找到你。</p>
                         </div>
+                        <div class="list">
+                        </div>
                     </div>
                 </div>
             </div>
