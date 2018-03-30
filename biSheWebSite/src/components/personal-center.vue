@@ -225,12 +225,50 @@
                         }
                     }
                 }
-                
+                .resume-list{
+                    clear: both;
+                    .resume-content{
+                        width:100%;
+                        .title{
+                            height: 44px;
+                            line-height: 44px;
+                            color: rgba(0,0,0,0.6);
+                            margin-bottom: 15px;
+                            border-bottom: 2px solid rgba(0,0,0,0.3);
+                            .tl{
+                                font-size: 22px;
+                                font-weight: bold;
+                            }
+                            .tr{
+                                float: right;
+                                color:#999;
+                                cursor: pointer;
+                                &:hover{
+                                    color: #ff6000;   
+                                }
+                            }
+                            
+                        }
+                    }
+                }
             }
         }
     }
 }
 </style>
+<style lang="less">
+.personal-center{
+    .el-table th{
+        text-align:center;
+        background-color: rgba(0,0,0,0.1);
+    }
+    .el-table__row{
+        text-align:center;
+    }
+}
+
+</style>
+
 
 <template>
 <div class="personal-center">
@@ -313,8 +351,67 @@
                         <div class="none">
                             <p>暂无企业查看你的简历，现在就去刷新简历，让企业更快找到你。</p>
                         </div>
-                        <div class="list">
+                    </div>
+                </div>
+                <div class="resume-list">
+                    <div class="resume-content">
+                        <div class="title">
+                            <span class="tl">简历中心</span><span class="tr">创建简历</span>
                         </div>
+                        <div class="table">
+                            <el-table
+                                :data="resumeData"
+                                style="width: 100%">
+                                <el-table-column
+                                prop="name"
+                                label="简历名称"
+                                width="250">
+                                </el-table-column>
+                                <el-table-column
+                                prop="condition"
+                                label="公开程度"
+                                width="220">
+                                <template slot-scope="scope">
+                                     <el-dropdown trigger="click" @command="resumeConditionChange">
+                                        <span class="el-dropdown-link">
+                                            {{scope.row.condition}}<i class="el-icon-arrow-down el-icon--right"></i>
+                                        </span>
+                                        <el-dropdown-menu slot="dropdown">
+                                            <el-dropdown-item command="对所有公开">对所有公开</el-dropdown-item>
+                                            <el-dropdown-item command="对无忧公开">对无忧公开</el-dropdown-item>
+                                            <el-dropdown-item command="完全保密">完全保密</el-dropdown-item>
+                                        </el-dropdown-menu>
+                                    </el-dropdown> 
+                                    <!-- <select name="cars">
+                                        <option value="volvo">Volvo</option>
+                                        <option value="saab">Saab</option>
+                                        <option value="fiat">Fiat</option>
+                                        <option value="audi">Audi</option>
+                                    </select> -->
+                                </template>
+                                </el-table-column>
+                                <el-table-column
+                                prop="dilivery"
+                                label="快速投递"
+                                width="210">
+                                </el-table-column>
+
+                                <el-table-column
+                                label="操作"
+                                width="150">
+                                <template slot-scope="scope">
+                                    <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+                                    <el-button type="text" size="small">删除</el-button>
+                                </template>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                    </div>
+                    <div class="introduce">
+                        <h5>公开程度说明：</h5>
+                        <p>对所有公开：允许51job的招聘人员及所有通过51job审核的公司查看你的简历（注意：只允许有1份简历可以选择对所有公开）。</p>
+                        <p>对无忧公开：只允许51job的招聘人员及认证猎头人士查看你的简历。</p>
+                        <p>完全保密：不允许任何人员或公司查看您的简历，个人信息完全保密，除非你主动投递职位。</p>
                     </div>
                 </div>
             </div>
@@ -325,6 +422,23 @@
 
 <script>
 export default {
-  
+  data(){
+    return{
+        resumeData:[
+            {
+            name:'我的简历',
+            condition:'完全保密',
+            dilivery:'关'
+            }
+        ],
+    }
+  },
+  methods:{
+      resumeConditionChange(command){
+        console.log(command);
+        // console.log(row);
+        this.resumeData.condition = command;
+      }
+  }
 }
 </script>
