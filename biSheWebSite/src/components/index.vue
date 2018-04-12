@@ -339,19 +339,19 @@
                     }
                     .title-internet{
                         background:url(../assets/icon/index-all.png) no-repeat;
-                        background-position: -135px -137px;
+                        background-position: -146px -137px;
                     }
                     .title-finance{
                         background:url(../assets/icon/index-all.png) no-repeat;
-                        background-position: -130px -170px;
+                        background-position: -142px -170px;
                     }
                     .title-automobile{
                         background:url(../assets/icon/index-all.png) no-repeat;
-                        background-position: -130px -207px;
+                        background-position: -145px -207px;
                     }
                     .title-realestate{
                         background:url(../assets/icon/index-all.png) no-repeat;
-                        background-position: -100px -243px;
+                        background-position: -145px -243px;
                     }
                 }
             }

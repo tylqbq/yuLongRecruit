@@ -1,5 +1,6 @@
 <!--个人中心-->
 <style lang="less" scoped>
+@import "../assets/common";
 .personal-center{
     .container-fluid{
         .page-content{
@@ -142,11 +143,10 @@
                         .scan{
                             float: left;
                             width: 33.3%;
-                            height: 30px;
-                            line-height: 30px;
+                            height: 70px;
+                            line-height: 70px;
                             text-align: center;
                             text-indent: 3em;
-                            padding: 18px 0;
                             cursor: pointer;
                             &:hover{
                                 color: #ff6000;
@@ -156,7 +156,7 @@
                                 width: 130px;
                                 height: 35px;
                                 line-height: 35px;
-                                margin: 0 auto;
+                                margin: 18px auto;
                             }
                             em{
                                 font-size:18px;
@@ -176,6 +176,7 @@
                             background:url(../assets/icon/icon_rse.png) left center no-repeat;
                             background-position: 0 -90px ;
                         }
+                        
                     }
                 }
                 .with-me{
@@ -248,6 +249,20 @@
                                 }
                             }
                             
+                        }
+                    }
+                    .introduce{
+                        clear: both;
+                        .public{
+                            font-size: 12px;
+                            font-weight: bold;
+                            color: #999;
+                            margin-top:20px;
+                        }
+                        .ct{
+                            font-size: 12px;
+                            color: #999;
+                            line-height: 20px;
                         }
                     }
                 }
@@ -376,16 +391,6 @@
                                 label="公开程度"
                                 width="220">
                                 <template slot-scope="scope">
-                                     <!-- <el-dropdown trigger="click" @command="resumeConditionChange">
-                                        <span class="el-dropdown-link">
-                                            {{scope.row.condition}}<i class="el-icon-arrow-down el-icon--right"></i>
-                                        </span>
-                                        <el-dropdown-menu slot="dropdown">
-                                            <el-dropdown-item command="对所有公开">对所有公开</el-dropdown-item>
-                                            <el-dropdown-item command="对无忧公开">对无忧公开</el-dropdown-item>
-                                            <el-dropdown-item command="完全保密">完全保密</el-dropdown-item>
-                                        </el-dropdown-menu>
-                                    </el-dropdown>  -->
                                     <el-select v-model="scope.row.condition" placeholder="请选择">
                                         <el-option
                                         v-for="item in resumeCondition"
@@ -420,10 +425,13 @@
                         </div>
                     </div>
                     <div class="introduce">
-                        <h5>公开程度说明：</h5>
-                        <p>对所有公开：允许51job的招聘人员及所有通过51job审核的公司查看你的简历（注意：只允许有1份简历可以选择对所有公开）。</p>
-                        <p>对无忧公开：只允许51job的招聘人员及认证猎头人士查看你的简历。</p>
-                        <p>完全保密：不允许任何人员或公司查看您的简历，个人信息完全保密，除非你主动投递职位。</p>
+                        <h5 class="public">公开程度说明：</h5>
+                        <p class="ct">对所有公开：允许51job的招聘人员及所有通过51job审核的公司查看你的简历（注意：只允许有1份简历可以选择对所有公开）。</p>
+                        <p class="ct">对无忧公开：只允许51job的招聘人员及认证猎头人士查看你的简历。</p>
+                        <p class="ct">完全保密：不允许任何人员或公司查看您的简历，个人信息完全保密，除非你主动投递职位。</p>
+
+                        <h5 class="public">快速投递说明：</h5>
+                        <p class="ct">将简历设置为快速投递，申请职位时，直接发送设置快速投递的简历，不再提示选择简历。如需修改，请至简历中心更改设置。</p>
                     </div>
                 </div>
             </div>

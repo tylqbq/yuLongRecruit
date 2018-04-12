@@ -74,14 +74,14 @@
               <div class="navbar"> <!--导航-->
               <img class="logo" src="../assets/logo.png" v-show="false" />
                   <el-menu
-                    default-active="index"
+                    :default-active="indexPath"
                     class="el-menu-demo"
                     mode="horizontal"
-                    @select="handleSelect"
                     background-color="#f5f5f5"
                     text-color="#000000"
                     active-text-color="#ff6000"
-                    :router="true">
+                    :router="true"
+                    @select="handleSelect">
                     <el-menu-item index="index">首页</el-menu-item>
                     <el-menu-item index="jobSearch">职位搜索</el-menu-item>
                     <el-menu-item index="regionalChannel">地区频道</el-menu-item>
@@ -133,11 +133,13 @@ export default {
   data() {
     return {
         isShowBackTop:false,
+        indexPath:'index',
     }
   },
   methods: {
-    handleSelect(){
-
+    handleSelect(index){
+        console.log(index);
+        this.indexPath = index;
     },
     getScrollTop(){    
       var scrollTop=0;    
