@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
+import Home from '../components/Home'
 import App from '../App'
 Vue.use(Router)
 
@@ -13,42 +13,37 @@ const enterpriseService = r => require.ensure([], () => r(require('../components
 
 const routes = [
   {
-    path: '/',
-    component: App,
-    children: [
+    path: '',
+    component: Home,
+    children:[
       {
-        path: '',
-        component: Home,
-        children:[
-          {
-            path:'/',
-            component:index
-          },
-          {
-            path: 'index',
-            component: index
-          },{
-            path: 'jobSearch',
-            meta: {
-              requireAuth: true, // 添加该字段，表示进入这个路由是需要登录的
-            },
-            component: jobSearch
-          },{
-            path: 'personalCenter',
-            component: personalCenter
-          },{
-            path: 'regionalChannel',
-            component: regionalChannel
-          },{
-            path: 'workplaceCounseling',
-            component: workplaceCounseling
-          },{
-            path: 'enterpriseService',
-            component: enterpriseService
-          }
-        ]
+        path:'/',
+        component:index
       },
-      
+      {
+        path: 'index',
+        component: index
+      },
+      {
+        path: 'jobSearch',
+        component: jobSearch
+      },
+      {
+        path: 'personalCenter',
+        component: personalCenter
+      },
+      {
+        path: 'regionalChannel',
+        component: regionalChannel
+      },
+      {
+        path: 'workplaceCounseling',
+        component: workplaceCounseling
+      },
+      {
+        path: 'enterpriseService',
+        component: enterpriseService
+      }
     ]
   },
   

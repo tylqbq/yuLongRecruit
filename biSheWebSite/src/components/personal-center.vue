@@ -265,6 +265,10 @@
     .el-table__row{
         text-align:center;
     }
+    .el-input--suffix .el-input__inner{
+        border:none;
+        width:115px;
+    }
 }
 
 </style>
@@ -372,7 +376,7 @@
                                 label="公开程度"
                                 width="220">
                                 <template slot-scope="scope">
-                                     <el-dropdown trigger="click" @command="resumeConditionChange">
+                                     <!-- <el-dropdown trigger="click" @command="resumeConditionChange">
                                         <span class="el-dropdown-link">
                                             {{scope.row.condition}}<i class="el-icon-arrow-down el-icon--right"></i>
                                         </span>
@@ -381,19 +385,27 @@
                                             <el-dropdown-item command="对无忧公开">对无忧公开</el-dropdown-item>
                                             <el-dropdown-item command="完全保密">完全保密</el-dropdown-item>
                                         </el-dropdown-menu>
-                                    </el-dropdown> 
-                                    <!-- <select name="cars">
-                                        <option value="volvo">Volvo</option>
-                                        <option value="saab">Saab</option>
-                                        <option value="fiat">Fiat</option>
-                                        <option value="audi">Audi</option>
-                                    </select> -->
+                                    </el-dropdown>  -->
+                                    <el-select v-model="scope.row.condition" placeholder="请选择">
+                                        <el-option
+                                        v-for="item in resumeCondition"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                        </el-option>
+                                    </el-select>
                                 </template>
                                 </el-table-column>
                                 <el-table-column
-                                prop="dilivery"
-                                label="快速投递"
-                                width="210">
+                                    prop="dilivery"
+                                    label="快速投递"
+                                    width="210">
+                                    <template slot-scope="scope">
+                                        <el-switch
+                                            v-model="scope.row.dilivery"
+                                            active-text="开">
+                                        </el-switch>
+                                     </template>
                                 </el-table-column>
 
                                 <el-table-column
@@ -428,9 +440,19 @@ export default {
             {
             name:'我的简历',
             condition:'完全保密',
-            dilivery:'关'
+            dilivery:true
             }
         ],
+        resumeCondition:[{
+            value: '对所有公开',
+            label: '对所有公开',
+        },{
+            value: '对玉龙公开',
+            label: '对玉龙公开',
+        },{
+            value: '完全保密',
+            label: '完全保密',
+        }]
     }
   },
   methods:{
