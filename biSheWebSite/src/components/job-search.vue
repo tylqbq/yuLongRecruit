@@ -216,6 +216,7 @@
         text-align:center;
     }
     .el-table .cell{
+        text-align:center;
         a{
             text-decoration:none;
             color:rgba(0,0,0,0.7);
@@ -379,7 +380,7 @@
             <div class="jr-table">
                 <el-table
                     ref="multipleTable"
-                    :data="tableData3"
+                    :data="tableData"
                     tooltip-effect="dark"
                     style="width: 100%"
                     @selection-change="handleSelectionChange">
@@ -390,12 +391,12 @@
                     <el-table-column
                     label="职位名"
                     width="250">
-                    <template slot-scope="scope"><a href="#">{{ scope.row.pisitonName }}</a></template>  
+                    <template slot-scope="scope"><a href="#">{{ scope.row.positionName}}</a></template>  
                     </el-table-column>
                     <el-table-column
                     prop="companyName"
                     label="公司名"
-                    width="250">
+                    width="260">
                     <template slot-scope="scope"><a href="#">{{ scope.row.companyName }}</a></template>  
                     </el-table-column>
                     <el-table-column
@@ -406,7 +407,7 @@
                     </el-table-column>
                     <el-table-column
                     class-name="salary"
-                    prop="salary"
+                    prop="salaryRange"
                     label="薪资"
                     width="121" 
                     show-overflow-tooltip>
@@ -420,7 +421,7 @@
                 </el-table>
                 <el-pagination
                     @current-change="handleCurrentChange"
-                    :current-page.sync="pageParams.currentPage"
+                    :current-page.sync="pageParams.pageNumber"
                     :page-size="pageParams.pageSize"
                     layout="prev, pager, next, jumper"
                     :total="pageParams.total">
@@ -436,59 +437,17 @@ import{ getGetRecruit } from "../api";
 export default {
   data(){
       return{
-          searchParams:{},
-          date:'',
-          radio3:'',
-          isShowConditionHiden:true,
-          hidenInfo:"展开选项（公司性质、公司规模、工作年限等）",
-          tableData3:[{
-                pisitonName: '抗体制备技术人员',
-                companyName: '重庆威力保生物技术有限公司',
-                workPlace: '重庆-九龙坡区',
-                salary:"5千-8千/月",
-                publishDate:'03-22'
-            }, {
-                pisitonName: '抗体制备技术人员',
-                companyName: '重庆威力保生物技术有限公司',
-                workPlace: '重庆-九龙坡区',
-                salary:"5千-8千/月",
-                publishDate:'03-22'
-            }, {
-                pisitonName: '抗体制备技术人员',
-                companyName: '重庆威力保生物技术有限公司',
-                workPlace: '重庆-九龙坡区',
-                salary:"5千-8千/月",
-                publishDate:'03-22'
-            }, {
-                pisitonName: '抗体制备技术人员',
-                companyName: '重庆威力保生物技术有限公司',
-                workPlace: '重庆-九龙坡区',
-                salary:"5千-8千/月",
-                publishDate:'03-22'
-            }, {
-                pisitonName: '抗体制备技术人员',
-                companyName: '重庆威力保生物技术有限公司',
-                workPlace: '重庆-九龙坡区',
-                salary:"5千-8千/月",
-                publishDate:'03-22'
-            }, {
-                pisitonName: '抗体制备技术人员',
-                companyName: '重庆威力保生物技术有限公司',
-                workPlace: '重庆-九龙坡区',
-                salary:"5千-8千/月",
-                publishDate:'03-22'
-            }, {
-                pisitonName: '抗体制备技术人员',
-                companyName: '重庆威力保生物技术有限公司',
-                workPlace: '重庆-九龙坡区',
-                salary:"5千-8千/月",
-                publishDate:'03-22'
-            }],
-            pageParams:{
-                total:1000,
-                pageSize:100,
-                currentPage:1,
-            }
+        searchParams:{},
+        date:'',
+        radio3:'',
+        isShowConditionHiden:true,
+        hidenInfo:"展开选项（公司性质、公司规模、工作年限等）",
+        tableData:[],
+        pageParams:{
+            total:1,
+            pageSize:25,
+            pageNumber:1,
+        }
       }
   },
   methods:{
@@ -502,15 +461,33 @@ export default {
     },
     handleCurrentChange(pageNumber){
         this.pageParams.currentPage = pageNumber;
+        // var params =this.searchParams= {
+        //     keyWord:"工程师",
+        //     address:'重庆',
+        //     education:'本科',
+        //     // workType:'实习',
+        //     // companyType:'合资',
+        //     pageNumber:this.pageParams.pageNumber,
+        //     pageSize:this.pageParams.pageSize,
+        // };
+        this.search();
     },
     handleSelectionChange(){ //表格前面的复选框
 
     },
     search(){
-        var params = "";
+        var params =this.searchParams= {
+            keyWord:"工程师",
+            address:'重庆',
+            education:'本科',
+            // workType:'实习',
+            // companyType:'合资',
+            pageNumber:this.pageParams.pageNumber,
+            pageSize:this.pageParams.pageSize,
+        };
         getGetRecruit(params).then(res =>{
-            // console.log(res);
-            console.log(this.searchParams);
+            this.pageParams = res.data.data.pageParams;
+            this.tableData = res.data.data.recruitList;
         });
     }
   }
