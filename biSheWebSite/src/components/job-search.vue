@@ -248,9 +248,9 @@
                     <div class="search-condition">
                         <div class="condition condition-key">
                             <p class="condition-title">关键字</p>
-                            <p class="condition-content"><input class="input-key" v-model="searchParams.keyworld" type="text" /></p>
+                            <p class="condition-content"><input class="input-key" v-model="searchParams.keyWord" type="text" /></p>
                         </div>
-                        <div class="condition condition-area">
+                        <div class="condition condition-area" @click="citySelectedDialogVisible=true">
                             <p class="condition-title">地点</p>
                             <!-- <p>{{searchParams.area}}</p> -->
                             <p class="condition-content">重庆</p>
@@ -285,16 +285,16 @@
                 <div class="other-condition">
                     <div class="condition">
                         <span class="condition-title">发布日期：</span>
-                        <el-radio-group v-model="searchParams.publishDate">
-                            <el-radio label="所有"></el-radio>
-                            <el-radio label="24小时内"></el-radio>
-                            <el-radio label="近三天"></el-radio>
-                            <el-radio label="近一周"></el-radio>
+                        <el-radio-group v-model="searchParams.publishTime">
+                            <el-radio label="所有">所有</el-radio>
+                            <el-radio :label="1">24小时内</el-radio>
+                            <el-radio :label="3">近三天</el-radio>
+                            <el-radio :label="7">近一周</el-radio>
                         </el-radio-group>
                     </div>
                     <div class="condition">
                         <span class="condition-title">月薪范围：</span>
-                        <el-radio-group v-model="searchParams.salary">
+                        <el-radio-group v-model="searchParams.salaryRang">
                             <el-radio label="所有"></el-radio>
                             <el-radio label="2千以下"></el-radio>
                             <el-radio label="2-3千"></el-radio>
@@ -350,7 +350,7 @@
                         <div class="condition">
                             <span class="condition-title">公司规模：</span>
                             <el-radio-group v-model="searchParams.staffNumber">
-                                <el-radio label="all">所有</el-radio>
+                                <el-radio label="所有">所有</el-radio>
                                 <el-radio label="少于50人"></el-radio>
                                 <el-radio label="50-150人"></el-radio>
                                 <el-radio label="150-500人"></el-radio>
@@ -366,8 +366,7 @@
                                 <el-radio label="所有"></el-radio>
                                 <el-radio label="全职"></el-radio>
                                 <el-radio label="兼职"></el-radio>
-                                <el-radio label="实习全职"></el-radio>
-                                <el-radio label="实习兼职"></el-radio>
+                                <el-radio label="实习"></el-radio>
                             </el-radio-group>
                         </div>
                     </div>
@@ -428,16 +427,35 @@
                 </el-pagination>
             </div>
         </div>
+        <el-dialog
+            title="城市选择"
+            :visible.sync="citySelectedDialogVisible"
+            width="75%">
+            <city-select></city-select>
+            </el-dialog>
     </div>
 </div>
 </template>
 
 <script>
 import{ getGetRecruit } from "../api";
+import CitySelect from './block/citySelect';
 export default {
+    components: {
+        CitySelect
+    },
   data(){
       return{
-        searchParams:{},
+        citySelectedDialogVisible:false,
+        searchParams:{
+            keyWord:"",
+            address:'',
+            education:'',
+            workType:'',
+            companyType:'',
+            pageSize:25,
+            pageNumber:1
+        },
         date:'',
         radio3:'',
         isShowConditionHiden:true,
@@ -460,33 +478,15 @@ export default {
         }
     },
     handleCurrentChange(pageNumber){
-        this.pageParams.currentPage = pageNumber;
-        // var params =this.searchParams= {
-        //     keyWord:"工程师",
-        //     address:'重庆',
-        //     education:'本科',
-        //     // workType:'实习',
-        //     // companyType:'合资',
-        //     pageNumber:this.pageParams.pageNumber,
-        //     pageSize:this.pageParams.pageSize,
-        // };
+        this.searchParams.pageNumber = pageNumber;
         this.search();
     },
     handleSelectionChange(){ //表格前面的复选框
 
     },
     search(){
-        var params =this.searchParams= {
-            keyWord:"工程师",
-            address:'重庆',
-            education:'本科',
-            // workType:'实习',
-            // companyType:'合资',
-            pageNumber:this.pageParams.pageNumber,
-            pageSize:this.pageParams.pageSize,
-        };
-        getGetRecruit(params).then(res =>{
-            this.pageParams = res.data.data.pageParams;
+        getGetRecruit(this.searchParams).then(res =>{
+            this.pageParams.total = res.data.data.pageParams.total;
             this.tableData = res.data.data.recruitList;
         });
     }

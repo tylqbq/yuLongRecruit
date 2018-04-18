@@ -17,3 +17,9 @@ export const accountLogout = () => axios.post(baseUrl+"user/logout");
  * 得到招聘信息
  */
 export const getGetRecruit = (params) => axios.post(baseUrl+"recruit/getrecruit",params);
+
+/**
+ * 得到城市信息
+ */
+export const getCityList = (pyCode) => axios.post(baseUrl+"city/getCityList",{pyCode});
+
