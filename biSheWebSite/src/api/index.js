@@ -21,5 +21,5 @@ export const getGetRecruit = (params) => axios.post(baseUrl+"recruit/getrecruit"
 /**
  * 得到城市信息
  */
-export const getCityList = (pyCode) => axios.post(baseUrl+"city/getCityList",{pyCode});
+export const getCityList = (pyCode) => axios.get(baseUrl+"city/getCityList?pyCode="+pyCode);
 
