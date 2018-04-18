@@ -113,6 +113,7 @@
                         .wrap-up{
                             position:relative;
                             height: 360px;
+                            text-align: center;
                             transition: all 2s;
                             -moz-transition: all 2s;	/* Firefox 4 */
                             -webkit-transition: all 2s;	/* Safari 和 Chrome */
