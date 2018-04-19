@@ -79,6 +79,7 @@
                 border:none;
                 border-radius: 2px;
                 background-color: #ff6000;
+                cursor:pointer;
                 &:hover{
                     background-color:#ea5800;
                 }
@@ -94,7 +95,10 @@
                 padding-left:20px;
                 background: url(../assets/icon/icon_blue.png) no-repeat;
                 background-position:0 -40px;
-                
+                cursor:pointer;
+                &:hover{
+                    color:#ff6000;
+                }
             }
         }
     }
@@ -140,13 +144,13 @@
                 <h1 class="jn">{{recruit.positionName}}</h1>
                 <span class="ad">{{recruit.workPlace}}</span>
                 <strong class="sa">{{recruit.salaryRange}}</strong>
-                <p class="cn">{{company.companyName}}</p>
+                <p class="cn" @click="toCompany">{{company.companyName}}</p>
                 <p class="ci">{{company.companyType}}   | {{company.staffNumber}}   |  {{company.companyBusiness}}</p>
             </div>
             <!--申请职位-->
             <div class="apply">
                 <button class="abtn"><span class="bt-f">申请职位</span></button>
-                <span class="collection">收藏</span>
+                <span class="collection" @click="collection">{{collectionInfo}}</span>
             </div>
         </div>
         <div class="job-content">
@@ -195,7 +199,7 @@
 
 
 <script>
-import{ getRecruitById,getCompanyInfoById } from "../api";
+import{ getRecruitById,getCompanyInfoById,collectionRecruit } from "../api";
 export default {
   data(){
       return{
@@ -205,20 +209,35 @@ export default {
         },
         company:{
 
-        }
+        },
+        collectionInfo:'收藏'
       }
   },
   methods:{
     getRecruitById(id){
         getRecruitById(id).then(res =>{
-            console.log(res);
             this.recruit = res.data.data;
         });
     },
     getCompanyInfoById(id){
         getCompanyInfoById(id).then(res => {
-            console.log("公司",res);
             this.company = res.data.data;
+        });
+    },
+    toCompany(){
+        this.$router.push({
+            path: 'companyDetails', 
+            name: 'companyDetails',
+            params: { 
+                companyId: this.routerParams.companyId, 
+            }
+        })
+    },
+    collection(){
+        let recruitId = 100;
+        let jobSeekerId = 50;
+        collectionRecruit(recruitId,jobSeekerId).then(res =>{
+            console.log(res);
         });
     }
   },

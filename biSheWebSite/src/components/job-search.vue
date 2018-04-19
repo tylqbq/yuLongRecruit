@@ -526,6 +526,9 @@ export default {
             })
         }
     }
+  },
+  mounted(){
+      this.search();
   }
 }
 </script>

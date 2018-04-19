@@ -28,6 +28,11 @@ export const getRecruitById = (recruitId) => axios.get(baseUrl+"recruit/getrecru
  */
 export const getRecruitByCompanyId = (params) => axios.post(baseUrl+"recruit/getrecruitbycompanyid",params);
 
+/**
+ * 收藏取消
+ */
+export const collectionRecruit = (recruitId,jobSeekerId) => axios.get(baseUrl+"recruit/collectionrecruit?recruitId="+recruitId+"&jobSeekerId="+jobSeekerId);
+
 
 /**
  * 得到城市信息
