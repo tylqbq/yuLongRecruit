@@ -1,7 +1,8 @@
 <!--首页-->
 <style lang="less" scoped>
 .home-page{
-  background-color:#f5f5f5;
+  // background-color:#f5f5f5;
+  background-color:#fff;
   .page-part{
     position: relative;
     .navbar{
@@ -77,7 +78,7 @@
                     :default-active="indexPath"
                     class="el-menu-demo"
                     mode="horizontal"
-                    background-color="#f5f5f5"
+                    background-color="#FFF"
                     text-color="#000000"
                     active-text-color="#ff6000"
                     :router="true"

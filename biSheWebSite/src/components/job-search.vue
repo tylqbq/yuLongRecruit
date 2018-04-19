@@ -253,7 +253,7 @@
                         <div class="condition condition-area" @click="citySelectedDialogVisible=true">
                             <p class="condition-title">地点</p>
                             <!-- <p>{{searchParams.area}}</p> -->
-                            <p class="condition-content">重庆</p>
+                            <p class="condition-content">{{searchParams.address}}</p>
                         </div>
                         <div class="condition condition-industry">
                             <p class="condition-title">行业</p>
@@ -382,28 +382,34 @@
                     :data="tableData"
                     tooltip-effect="dark"
                     style="width: 100%"
-                    @selection-change="handleSelectionChange">
+                    @selection-change="handleSelectionChange"
+                    @cell-click="selectedjobOrCompany">
+
                     <el-table-column
                     type="selection"
                     width="55">
                     </el-table-column>
+
                     <el-table-column
                     label="职位名"
                     width="250">
                     <template slot-scope="scope"><a href="#">{{ scope.row.positionName}}</a></template>  
                     </el-table-column>
+
                     <el-table-column
                     prop="companyName"
                     label="公司名"
                     width="260">
                     <template slot-scope="scope"><a href="#">{{ scope.row.companyName }}</a></template>  
                     </el-table-column>
+
                     <el-table-column
                     prop="workPlace"
                     label="工作地点"
                     width="220"
                     show-overflow-tooltip>
                     </el-table-column>
+
                     <el-table-column
                     class-name="salary"
                     prop="salaryRange"
@@ -411,12 +417,14 @@
                     width="121" 
                     show-overflow-tooltip>
                     </el-table-column>
+
                     <el-table-column
                     prop="publishDate"
                     label="发布时间"
                     width="125"
                     show-overflow-tooltip>
                     </el-table-column>
+
                 </el-table>
                 <el-pagination
                     @current-change="handleCurrentChange"
@@ -431,14 +439,14 @@
             title="城市选择"
             :visible.sync="citySelectedDialogVisible"
             width="75%">
-            <city-select></city-select>
+            <city-select @citySelected="citySelected"></city-select>
             </el-dialog>
     </div>
 </div>
 </template>
 
 <script>
-import{ getGetRecruit } from "../api";
+import{ getRecruitList } from "../api";
 import CitySelect from './block/citySelect';
 export default {
     components: {
@@ -465,7 +473,8 @@ export default {
             total:1,
             pageSize:25,
             pageNumber:1,
-        }
+        },
+        selectedCity:"重庆"
       }
   },
   methods:{
@@ -484,11 +493,38 @@ export default {
     handleSelectionChange(){ //表格前面的复选框
 
     },
+    citySelected(city){
+        this.searchParams.address = city;
+        this.citySelectedDialogVisible = false;
+    },
     search(){
-        getGetRecruit(this.searchParams).then(res =>{
+        getRecruitList(this.searchParams).then(res =>{
             this.pageParams.total = res.data.data.pageParams.total;
             this.tableData = res.data.data.recruitList;
         });
+    },
+    selectedjobOrCompany(row, column, cell, event){
+        // console.log(row);
+        var columnName = column.label;//列名
+        if(columnName == '公司名'){
+            this.$router.push({
+                path: 'companyDetails', 
+                name: 'companyDetails',
+                params: { 
+                    companyId: row.companyId, 
+                }
+            })
+
+        }else if(columnName == "职位名"){
+            this.$router.push({
+                path: 'jobDetails', 
+                name: 'jobDetails',
+                params: { 
+                    jobId: row.id,
+                    companyId: row.companyId,  
+                }
+            })
+        }
     }
   }
 }

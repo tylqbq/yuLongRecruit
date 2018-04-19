@@ -7,8 +7,8 @@
         float: left;
         .nl{
             position: relative;
-            left: -40px;
-            top: -14px;
+            // left: -40px;
+            // top: -14px;
             list-style: none;
             .nl-li{
                 height: 25px;
@@ -21,6 +21,16 @@
                 &:hover{
                      background-color:#d9d9d9;
                 }
+            }
+            .active{
+                background-color: "#FFFFFF";
+                border-left:"5px solid #ff6000";
+                color: "#ff6000";
+            }
+            .no{
+                background-color: "#E5E5E5";
+                border-left:"5";
+                color: "#606266";
             }
         }
     }
@@ -43,7 +53,7 @@
                 padding:2px 5px;
                 height:32px;
                 line-height:32px;
-                width:32px;
+                // width:32px;
                 margin-right:70px;
                 &:hover{
                     background-color:#E5E5E5;
@@ -65,7 +75,7 @@
     <div class="city">
         <div class="name-list">
             <ul class="nl" @click="cityChange($event)" id="nl">
-                <li class="nl-li">热门城市</li>
+                <li class="nl-li" >热门城市</li>
                 <li class="nl-li">A B C</li>
                 <li class="nl-li">D E F G</li>
                 <li class="nl-li">H I</li>
@@ -79,24 +89,7 @@
             <!-- <h5>热门城市</h5> -->
             <div class="city-list">
                 <ul class="cl-ta">
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
-                    <li><span class="each">北京</span></li>
+                    <li><span class="each" :key="city" v-for="city in cityData" @click="citySelected(city)">{{city}}</span></li>
                 </ul>
             </div>
         </div>
@@ -110,11 +103,12 @@ import{ getCityList } from "../../api";
 export default {
   data(){
       return{
-
+        cityData:[],
       }
   },
   methods:{
       cityChange(event){
+        this.getCityList(event.target.innerHTML);
         var parent= document.getElementById("nl");
         var children = parent.children;
         for(let i in children){
@@ -131,8 +125,11 @@ export default {
       },
       getCityList(pyCode){
         getCityList(pyCode).then(res => {
-            console.log(res);
+            this.cityData = res.data.data;
         });
+      },
+      citySelected(city){
+        this.$emit("citySelected",city);
       }
   },
   mounted(){
