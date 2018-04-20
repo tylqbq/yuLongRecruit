@@ -184,8 +184,14 @@ export default {
             })
         }
     },
-    handleCurrentChange(){
-
+    handleCurrentChange(pageNumber){
+        let params = {
+            companyId:this.routerParams.companyId,
+            total:0,
+            pageSize:10,
+            pageNumber:pageNumber,
+        }
+        this.getRecruitByCompanyId(params);
     }
   },
   mounted(){
@@ -196,7 +202,7 @@ export default {
         pageSize:10,
         pageNumber:1,
     }
-    this.getRecruitByCompanyId(params)
+    this.getRecruitByCompanyId(params);
   }
 }
 </script>
