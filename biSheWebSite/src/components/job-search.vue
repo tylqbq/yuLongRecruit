@@ -328,7 +328,7 @@
                             <span class="condition-title">工作年限：</span>
                             <el-radio-group v-model="searchParams.workTime">
                                 <el-radio label="所有"></el-radio>
-                                <el-radio label="无经验"></el-radio>
+                                <el-radio label="无工作经验"></el-radio>
                                 <el-radio label="1-3年"></el-radio>
                                 <el-radio label="3-5年"></el-radio>
                                 <el-radio label="5-10年"></el-radio>
@@ -386,11 +386,6 @@
                     @cell-click="selectedjobOrCompany">
 
                     <el-table-column
-                    type="selection"
-                    width="55">
-                    </el-table-column>
-
-                    <el-table-column
                     label="职位名"
                     width="250">
                     <template slot-scope="scope"><a href="#">{{ scope.row.positionName}}</a></template>  
@@ -414,14 +409,14 @@
                     class-name="salary"
                     prop="salaryRange"
                     label="薪资"
-                    width="121" 
+                    width="130" 
                     show-overflow-tooltip>
                     </el-table-column>
 
                     <el-table-column
                     prop="publishDate"
                     label="发布时间"
-                    width="125"
+                    width="150"
                     show-overflow-tooltip>
                     </el-table-column>
 

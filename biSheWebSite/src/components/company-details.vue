@@ -69,6 +69,18 @@
             }
         }
     }
+    .company-content{
+        margin:20px 0;
+    }
+    .block-title{
+        font-size: 20px;
+        font-weight: bold;
+        color:#333;
+        text-indent: 0;
+        margin-top: 15px;
+        padding:2px 15px;
+        border-left: 4px solid #ff6000;
+    }
 }
 </style>
 
@@ -96,6 +108,7 @@
         </div>
         <!--所有招聘-->
         <div class="all-recruit">
+            <h1 class="block-title">该公司所有职位</h1>
             <div class="jr-table">
                 <el-table
                     ref="multipleTable"
@@ -111,6 +124,12 @@
                     </el-table-column>
 
                     <el-table-column
+                    label="学历"
+                    prop="education"
+                    width="250">
+                    </el-table-column>
+
+                    <el-table-column
                     prop="workPlace"
                     label="工作地点"
                     width="220"
@@ -121,14 +140,14 @@
                     class-name="salary"
                     prop="salaryRange"
                     label="薪资"
-                    width="121" 
+                    width="150" 
                     show-overflow-tooltip>
                     </el-table-column>
 
                     <el-table-column
                     prop="publishDate"
                     label="发布时间"
-                    width="125"
+                    width="160"
                     show-overflow-tooltip>
                     </el-table-column>
 

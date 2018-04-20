@@ -193,9 +193,9 @@
                         padding: 0 15px;
                         background-color: #fff;
                         border-bottom: 1px solid #eee;
-                        .title{
+                        // .title{
 
-                        }
+                        // }
                         .tip{
                             font-size: 12px;
                             font-weight: normal;
@@ -425,7 +425,7 @@
                                     </div>
                                     <div class="resume-btn">
                                         <button class="btn refresh">刷新</button>
-                                        <button class="btn editor">编辑</button>
+                                        <button class="btn editor" @click="resumeEditor">编辑</button>
                                     </div>
                                 </div>
                             </div>
@@ -639,6 +639,9 @@ export default {
                 this.block[i] = false;
             }
         }
+    },
+    resumeEditor(){
+        this.$router.push("/recruitEditor");
     }
   }
 }

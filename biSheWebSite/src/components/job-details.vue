@@ -157,7 +157,7 @@
             <div class="job-info">
                 <!--招聘要求-->
                 <div class="requirement">
-                    <el-tag type="info" class="re">{{recruit.workTime}}</el-tag>
+                    <el-tag type="info" class="re">{{recruit.workTime}}工作经验</el-tag>
                     <el-tag type="info" class="re">{{recruit.education}}</el-tag>
                     <el-tag type="info" class="re">{{recruit.recruitsNumber}}</el-tag>
                     <el-tag type="info" class="re">{{recruit.publishDate}}发布</el-tag>
@@ -199,7 +199,7 @@
 
 
 <script>
-import{ getRecruitById,getCompanyInfoById,collectionRecruit } from "../api";
+import{ getRecruitById,getCompanyInfoById,collectionRecruit,collectionIsExist } from "../api";
 export default {
   data(){
       return{
@@ -234,17 +234,55 @@ export default {
         })
     },
     collection(){
-        let recruitId = 100;
-        let jobSeekerId = 50;
-        collectionRecruit(recruitId,jobSeekerId).then(res =>{
+        if(this.iSLogin()){
+            let recruitId = this.routerParams.jobId;
+            let jobSeekerId = localStorage.getItem("id");
+            collectionRecruit(recruitId,jobSeekerId).then(res =>{
+                this.$message({
+                    message: res.data.data,
+                    type: 'success',
+                    duration:500
+                });
+                if(this.collectionInfo == "已收藏"){
+                    this.collectionInfo = "收藏";
+                }else{
+                    this.collectionInfo = "已收藏";
+                }
+            });
+        }else{
+            this.$message({
+                message: "请先登录！",
+                type: 'warning',
+                duration:500
+            });
+        }
+        
+    },
+    collectionIsExist(){
+        let recruitId = this.routerParams.jobId;
+        let jobSeekerId = localStorage.getItem("id");
+        collectionIsExist(recruitId,jobSeekerId).then(res => {
             console.log(res);
+            let isCollection = res.data.data;
+            if(isCollection){ //已收藏
+                this.collectionInfo = "已收藏";
+            }
         });
+    },
+    iSLogin(){//判断是否登录
+        let jobSeekerId = localStorage.getItem("id");
+        if(jobSeekerId != null && jobSeekerId != ""){
+            return true;
+        }else{
+            return false;
+        }
     }
   },
   mounted(){
     this.routerParams = this.$route.params;
     this.getRecruitById(this.routerParams.jobId);
-    this.getCompanyInfoById(this.routerParams.companyId)
+    this.getCompanyInfoById(this.routerParams.companyId);
+    this.collectionIsExist();
   }
 }
 </script>

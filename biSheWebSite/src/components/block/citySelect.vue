@@ -7,12 +7,8 @@
         float: left;
         .nl{
             position: relative;
-            // left: -40px;
-            // top: -14px;
             list-style: none;
             .nl-li{
-                height: 25px;
-                line-height: 25px;
                 word-wrap: break-word;
                 word-break: normal;
                 padding: 8px 0 8px 14px;
@@ -53,7 +49,7 @@
                 padding:2px 5px;
                 height:32px;
                 line-height:32px;
-                // width:32px;
+                width:80px;
                 margin-right:70px;
                 &:hover{
                     background-color:#E5E5E5;
@@ -75,7 +71,8 @@
     <div class="city">
         <div class="name-list">
             <ul class="nl" @click="cityChange($event)" id="nl">
-                <li class="nl-li" >热门城市</li>
+                <li class="nl-li" style="background-color:#FFFFFF;
+                border-left:5px solid #ff6000;color:#ff6000">热门城市</li>
                 <li class="nl-li">A B C</li>
                 <li class="nl-li">D E F G</li>
                 <li class="nl-li">H I</li>

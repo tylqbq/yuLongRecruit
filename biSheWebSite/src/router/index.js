@@ -12,7 +12,7 @@ const workplaceCounseling = r => require.ensure([], () => r(require('../componen
 const enterpriseService = r => require.ensure([], () => r(require('../components/enterprise-service')), 'enterpriseService')
 const companyDetails =  r => require.ensure([], () => r(require('../components/company-details')), 'companyDetails')
 const jobDetails =  r => require.ensure([], () => r(require('../components/job-details')), 'jobDetails')
-
+const recruitEditor =  r => require.ensure([], () => r(require('../components/recruit-editor')), 'recruitEditor')
 
 const routes = [
   {
@@ -54,6 +54,10 @@ const routes = [
         name:'jobDetails', 
         path:'jobDetails',
         component:jobDetails
+      },{
+        name:'recruitEditor', 
+        path:'recruitEditor',
+        component:recruitEditor
       }
     ]
   },

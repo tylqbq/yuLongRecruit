@@ -319,7 +319,7 @@ export default {
 					        localStorage.setItem("id",data.id);
                             window.location.href = 'index.html';
                         }else{
-                            alert(data.message);
+                            alert(res.data.message);
                         }
                     });
                 } else {
