@@ -166,9 +166,13 @@ export default {
   methods:{
     getRecruitByCompanyId(params){
         getRecruitByCompanyId(params).then(res=>{
-            console.log(res);
+            this.pageParams = res.data.data.pageParams;
+            this.tableData = res.data.data.recruitList;
+        });
+    },
+    getCompanyInfoById(id){
+        getCompanyInfoById(id).then(res=>{
             this.company = res.data.data;
-            this.tableData = res.data.data.recruits;
         });
     },
     selectedjobOrCompany(row, column, cell, event){
@@ -185,11 +189,12 @@ export default {
         }
     },
     handleCurrentChange(pageNumber){
+        this.pageParams.pageNumber = pageNumber;
         let params = {
             companyId:this.routerParams.companyId,
-            total:0,
-            pageSize:10,
-            pageNumber:pageNumber,
+            total:this.pageParams.total,
+            pageSize:this.pageParams.pageSize,
+            pageNumber:this.pageParams.pageNumber,
         }
         this.getRecruitByCompanyId(params);
     }
@@ -203,6 +208,7 @@ export default {
         pageNumber:1,
     }
     this.getRecruitByCompanyId(params);
+    this.getCompanyInfoById(this.routerParams.companyId);
   }
 }
 </script>
