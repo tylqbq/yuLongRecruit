@@ -435,7 +435,7 @@
             :visible.sync="citySelectedDialogVisible"
             width="75%">
             <city-select @citySelected="citySelected"></city-select>
-            </el-dialog>
+        </el-dialog>
     </div>
 </div>
 </template>

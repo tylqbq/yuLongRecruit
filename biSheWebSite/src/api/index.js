@@ -51,3 +51,23 @@ export const getCityList = (pyCode) => axios.get(baseUrl+"city/getCityList?pyCod
 export const getCompanyInfoById = (companyId) => axios.get(baseUrl+"company/getcompanyInfobyid?id="+companyId);
 
 
+
+/**
+ * 新建简历
+ */
+export const bulidResume = (params) => axios.post(baseUrl+"resume/addresume",params);
+
+/**
+ * 年收入
+ */
+export const addAnnualIncome = (params) => axios.post(baseUrl+"resume/addannualIncome",params);
+
+/**
+ * 新建工作意向
+ */
+export const addJobIntention = (params) => axios.post(baseUrl+"resume/addJobIntention",params);
+
+/**
+ * 新建工作意向
+ */
+export const getResumeAllById = (params) => axios.post(baseUrl+"resume/getAllById",params);

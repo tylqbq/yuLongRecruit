@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import './assets/common.less'
+import moment from "moment"
 import router from './router'
 import axios from 'axios'
 import ElementUI from 'element-ui'

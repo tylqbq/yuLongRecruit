@@ -458,7 +458,7 @@
                 <div class="resume-list" v-show="block.block_2">
                     <div class="resume-content">
                         <div class="block_title">
-                            <span class="tl">简历中心</span><span class="tr">创建简历</span>
+                            <span class="tl">简历中心</span><span class="tr" @click="bulidResume">创建简历</span>
                         </div>
                         <div class="table">
                             <el-table
@@ -641,7 +641,22 @@ export default {
         }
     },
     resumeEditor(){
-        this.$router.push("/recruitEditor");
+        this.$router.push({
+            path: 'recruitEditor', 
+            name: 'recruitEditor',
+            params: { 
+                resumeId:18,
+            }
+        })
+    },
+    bulidResume(){
+        this.$router.push({
+            path: 'recruitEditor', 
+            name: 'recruitEditor',
+            params: { 
+                resumeId:'',
+            }
+        })
     }
   }
 }
