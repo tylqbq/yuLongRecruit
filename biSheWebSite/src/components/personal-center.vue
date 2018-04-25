@@ -266,7 +266,7 @@
                             h2{
                                 float: left;
                                 position: relative;
-                                width: 217px;
+                                width: 160px;
                                 line-height: 60px;
                                 font-size: 16px;
                                 font-weight: normal;
@@ -277,11 +277,12 @@
                             }
                             span{
                                 float: left;
-                                width: 400px;
+                                width: 100px;
                                 font-size: 14px;
                                 color: #666;
                             }
                             .sp1{
+                                width: 550px;
                                 text-align:left;
                             }
                             .icon{
@@ -402,11 +403,11 @@
                 <!--个人信息-->
                 <div v-show="block.block_1">
                     <div class="personal-info" >
-                        <p class="name">汤玉龙，你好！</p>
+                        <p class="name">{{user.name}}，你好！</p>
                         <p class="info">
-                            <span>出生日期：</span> <span>1995-11-15</span>
-                            <span>性别：</span> <span>男</span>
-                            <span>邮箱：</span><span>1073204945.qq.com</span>
+                            <span>出生日期：</span> <span>{{user.brithDate}}</span>
+                            <span>性别：</span> <span>{{user.sex}}</span>
+                            <span>邮箱：</span><span>{{user.email}}</span>
                         </p>
                         <span class="change">修改信息</span>
                     </div>
@@ -417,14 +418,14 @@
                                 <div class="details">
                                     <div class="resume-de">
                                         <div class="title">
-                                            <span>我的简历1</span><em>完全保密</em>
+                                            <span>我的简历1</span><em>{{mainResume.isPublic}}</em>
                                         </div>
                                         <div class="refreshTime"><span>更新：2018-03-28</span></div>
-                                        <div class="r1">汤玉龙  |  男  |  22岁  |  1年工作经验  |  现居住重庆-南岸区</div>
-                                        <div class="r2">软件工程师  |  重庆玖舆博泓科技有限公司</div>
+                                        <div class="r1">{{mainResume.name}}  |  {{mainResume.sex}}  | {{mainResume.age}}  |  1年工作经验  |  现居住{{mainResume.address}}</div>
+                                        <div class="r2">{{mainResume.position}}  |  {{mainResume.companyName}}</div>
                                     </div>
                                     <div class="resume-btn">
-                                        <button class="btn refresh">刷新</button>
+                                        <button class="btn refresh" @click="getAllByJobSeekerId()">刷新</button>
                                         <button class="btn editor" @click="resumeEditor">编辑</button>
                                     </div>
                                 </div>
@@ -470,11 +471,11 @@
                                 width="250">
                                 </el-table-column>
                                 <el-table-column
-                                prop="condition"
+                                prop="isPublic"
                                 label="公开程度"
                                 width="220">
                                 <template slot-scope="scope">
-                                    <el-select v-model="scope.row.condition" placeholder="请选择">
+                                    <el-select v-model="scope.row.isPublic" placeholder="请选择" @change="changPublic(scope.row)">
                                         <el-option
                                         v-for="item in resumeCondition"
                                         :key="item.value"
@@ -491,7 +492,8 @@
                                     <template slot-scope="scope">
                                         <el-switch
                                             v-model="scope.row.dilivery"
-                                            active-text="开">
+                                            active-text="开"
+                                            @change="changeDilivery(scope.row)">
                                         </el-switch>
                                      </template>
                                 </el-table-column>
@@ -500,8 +502,8 @@
                                 label="操作"
                                 width="150">
                                 <template slot-scope="scope">
-                                    <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-                                    <el-button type="text" size="small">删除</el-button>
+                                    <el-button @click="handleClickeditor(scope.row)" type="text" size="small">编辑</el-button>
+                                    <el-button type="text" size="small" @click="deleteresume(scope.row)">删除</el-button>
                                 </template>
                                 </el-table-column>
                             </el-table>
@@ -509,8 +511,8 @@
                     </div>
                     <div class="introduce">
                         <h5 class="public">公开程度说明：</h5>
-                        <p class="ct">对所有公开：允许51job的招聘人员及所有通过51job审核的公司查看你的简历（注意：只允许有1份简历可以选择对所有公开）。</p>
-                        <p class="ct">对无忧公开：只允许51job的招聘人员及认证猎头人士查看你的简历。</p>
+                        <p class="ct">对所有公开：允许本网站的招聘人员及所有通过本网站审核的公司查看你的简历（注意：只允许有1份简历可以选择对所有公开）。</p>
+                        <p class="ct">对玉龙公开：只允许本网站的招聘人员及认证猎头人士查看你的简历。</p>
                         <p class="ct">完全保密：不允许任何人员或公司查看您的简历，个人信息完全保密，除非你主动投递职位。</p>
 
                         <h5 class="public">快速投递说明：</h5>
@@ -538,8 +540,46 @@
                         <span class="tl">我的收藏</span>
                         <!-- <span class="tr">创建简历</span> -->
                     </div>
-                    <div class="none">
+                    <!-- <div class="none">
                         <p>未收藏任何职位</p>
+                    </div> -->
+                    <div class="jr-table">
+                        <el-table
+                            ref="multipleTable"
+                            :data="collectionData"
+                            tooltip-effect="dark"
+                            style="width: 100%"
+                            @cell-click="selectedjobOrCompany">
+
+                            <el-table-column
+                            label="职位名"
+                            width="300">
+                            <template slot-scope="scope"><a href="#">{{ scope.row.positionName}}</a></template>  
+                            </el-table-column>
+
+                            <el-table-column
+                            prop="companyName"
+                            label="公司名"
+                            width="260">
+                            <template slot-scope="scope"><a href="#">{{ scope.row.companyName }}</a></template>  
+                            </el-table-column>
+
+                            <el-table-column
+                            class-name="salary"
+                            prop="salaryRange"
+                            label="薪资"
+                            width="130" 
+                            show-overflow-tooltip>
+                            </el-table-column>
+
+                            <el-table-column
+                                label="操作"
+                                width="160">
+                                <template slot-scope="scope">
+                                    <el-button type="text" size="small" @click="deleteCollectionResume(scope.row)">删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
                     </div>
                 </div>
                 <!--我的收藏-->
@@ -547,11 +587,48 @@
                 <!--我的申请-->
                 <div v-show="block.block_5" class="block_apply block">、
                     <div class="block_title">
-                        <span class="tl">我的申请</span>
-                        <!-- <span class="tr">创建简历</span> -->
+                        <span class="tl">我的申请</span> 
                     </div>
-                    <div class="none">
+                    <!-- <div class="none">
                         <p>暂无申请记录</p>
+                    </div> -->
+                    <div class="jr-table">
+                        <el-table
+                            ref="multipleTable"
+                            :data="deliveryData"
+                            tooltip-effect="dark"
+                            style="width: 100%"
+                            @cell-click="selectedDelivery">
+
+                            <el-table-column
+                            label="简历"
+                            width="300">
+                            <template slot-scope="scope"><a href="#">{{ scope.row.resumeName}}</a></template>  
+                            </el-table-column>
+
+                            <el-table-column
+                            prop="companyName"
+                            label="职位"
+                            width="260">
+                            <template slot-scope="scope"><a href="#">{{ scope.row.recruitPositionName }}</a></template>  
+                            </el-table-column>
+
+                            <el-table-column
+                            class-name="salary"
+                            prop="salaryRange"
+                            label="投递时间"
+                            width="130" >
+                            <template slot-scope="scope"><a href="#">{{ scope.row.deliveryTime}}</a></template> 
+                            </el-table-column>
+
+                            <el-table-column
+                                label="操作"
+                                width="160">
+                                <template slot-scope="scope">
+                                    <el-button type="text" size="small" @click="deleteDeliveryResume(scope.row)">删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
                     </div>
                 </div>
                 <!--我的申请-->
@@ -565,27 +642,76 @@
                     <div class="sbox">
                         <div class="s s1">
                             <h2><span class="icon icon_user"></span>用户名</h2>
-                            <span class="sp1">phone_18716381592</span>
-                            <span class="change">修改</span>
+                            <span class="sp1">{{user.name}}</span>
+                            <span class="change" @click="userNameDialog=true">修改</span>
                         </div>
                         <div class="s s2">
                             <h2><span class="icon icon_pass"></span>登录密码</h2>
                             <span class="sp1" style="color:#ff6000">互联网帐号存在被盗风险，建议你定期更改密码以保护账户安全</span>
-                            <span class="change">修改</span>
+                            <span class="change" @click="passwordDialog=true">修改</span>
                         </div>
                         <div class="s s3">
                             <h2><span class="icon icon_phone"></span>手机</h2>
-                            <span class="sp1">187****1592（已绑定）</span>
-                            <span class="change">修改</span>
+                            <span class="sp1">{{user.phoneNumber}}（已绑定）</span>
+                            <span class="change" @click="phoneNumberDialog=true">修改</span>
                         </div>
                         <div class="s s4">
                             <h2><span class="icon icon_email"></span>邮箱</h2>
-                            <span class="sp1">phone_18716381592</span>
-                            <span class="change">修改</span>
+                            <span class="sp1">{{user.email}}</span>
+                            <span class="change" @click="emailDialog=true">修改</span>
                         </div>
                     </div>
                 </div>
                 <!--安全中心-->
+                <el-dialog title="修改用户名" :visible.sync="userNameDialog" width="30%">
+                    <el-form :model="user">
+                        <el-form-item label="用户名" label-width="100px">
+                            <el-input v-model="user.name"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button @click="userNameDialog = false">取 消</el-button>
+                            <el-button type="primary" @click="updateUserName">确 定</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-dialog>
+
+                <el-dialog title="修改密码" :visible.sync="passwordDialog" width="30%">
+                    <el-form :model="changePasswordParams">
+                        <el-form-item label="旧密码" label-width="100px">
+                            <el-input type="password" v-model="changePasswordParams.oldPassword"></el-input>
+                        </el-form-item>
+                        <el-form-item label="新密码" label-width="100px">
+                            <el-input type="password" v-model="changePasswordParams.newPassword"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button @click="passwordDialog = false">取 消</el-button>
+                            <el-button type="primary" @click="updatePassword">确 定</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-dialog>
+
+                <el-dialog title="修改手机" :visible.sync="phoneNumberDialog" width="30%">
+                    <el-form :model="user">
+                        <el-form-item label="手机" label-width="100px">
+                            <el-input v-model="user.phoneNumber"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button @click="phoneNumberDialog = false">取 消</el-button>
+                            <el-button type="primary" @click="updatePhoneNumber">确 定</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-dialog>
+                <el-dialog title="修改邮箱" :visible.sync="emailDialog" width="30%">
+                    <el-form :model="user">
+                        <el-form-item label="邮箱" label-width="100px">
+                            <el-input v-model="user.email"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button @click="emailDialog = false">取 消</el-button>
+                            <el-button type="primary" @click="updateEmail">确 定</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-dialog>
 
             </div>
         </div>
@@ -594,24 +720,29 @@
 </template>
 
 <script>
+import {getUserInfoById,getAllByJobSeekerId,deleteresume,
+getMyCollectionRecruits,updatePublic,updateDilivery,deleteCollectionRecruit,getDeliveryResume,
+updateUserName,updatePassword,updatePhoneNumber,updateEmail} from "../api";
+import moment from "moment";
 export default {
   data(){
     return{
-        resumeData:[
-            {
-            name:'我的简历',
-            condition:'完全保密',
-            dilivery:true
-            }
-        ],
+        user:{
+            name:'',
+            sex:'',
+            email:'',
+            phoneNumber:'',
+            birthDate:''
+        },
+        resumeData:[],
         resumeCondition:[{
-            value: '对所有公开',
+            value: '2',
             label: '对所有公开',
         },{
-            value: '对玉龙公开',
+            value: '1',
             label: '对玉龙公开',
         },{
-            value: '完全保密',
+            value: '0',
             label: '完全保密',
         }],
         block:{
@@ -621,13 +752,33 @@ export default {
             block_4:false,
             block_5:false,
             block_6:false, 
-        } 
+        },
+        mainResume:{
+            name:'',
+            sex:'',
+            age:'',
+            workTime:'',
+            address:'',
+            position:'',
+            companyName:'',
+            isPublic:'',
+            id:''
+        },
+        collectionData:[],
+        deliveryData:[],
+        userNameDialog:false,
+        passwordDialog:false,
+        phoneNumberDialog:false,
+        emailDialog:false,
+        changePasswordParams:{
+            oldPassword:'',
+            newPassword:'',
+            jobSeekerId:''
+        }
     }
   },
   methods:{
     resumeConditionChange(command){
-        console.log(command);
-        // console.log(row);
         this.resumeData.condition = command;
     },
     selectedMenu(index){
@@ -635,29 +786,288 @@ export default {
             var curIndex = String(i).split("_")[1];
             if(curIndex == index){
                 this.block[i] = true;
+                if(curIndex == 4){
+                    this.getMyCollectionRecruits();
+                }
             }else{
                 this.block[i] = false;
             }
         }
+    },
+    handleClickeditor(resume){
+        this.$router.push({
+            path: 'recruitEditor', 
+            name: 'recruitEditor',
+            params: { 
+                resumeId:resume.id,
+            }
+        })
     },
     resumeEditor(){
         this.$router.push({
             path: 'recruitEditor', 
             name: 'recruitEditor',
             params: { 
-                resumeId:18,
+                resumeId:this.mainResume.id,
             }
         })
     },
     bulidResume(){
         this.$router.push({
-            path: 'recruitEditor', 
-            name: 'recruitEditor',
-            params: { 
-                resumeId:'',
-            }
+            path: 'recruitBuild', 
+            name: 'recruitBuild',
         })
-    }
+    },
+    deleteresume(resume){
+        this.$confirm('此操作将删除该简历, 是否删除?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+            let params = {
+                id:resume.id
+            }
+            deleteresume(params).then(res=>{
+                if(res.data.status){
+                    this.$message({
+                        message: res.data.data,
+                        type: 'success',
+                        duration:800
+                    });
+                    this.getAllByJobSeekerId();
+                }
+            });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除',
+            duration:800
+          });          
+        });
+    },
+    deleteDeliveryResume(deliveryResume){
+
+    },
+    getUserInfo(){
+        let params ={
+            id:localStorage.getItem("id")
+        };
+        getUserInfoById(params).then(res=>{
+            this.user = res.data.data;
+        });
+    },
+    getAllByJobSeekerId(){
+        let params={
+            jobSeekerId:localStorage.getItem("id")
+        };
+        getAllByJobSeekerId(params).then(res => {
+            if(res.data.data.length > 0){
+                let data = res.data.data[0];
+                for(let i=0;i<res.data.data.length;i++){
+                    if(res.data.data[i].isPublic ==  0){
+                        res.data.data[i].isPublic = "完全保密"
+                    }else if(res.data.data[i].isPublic ==  1){
+                        res.data.data[i].isPublic = "对玉龙公开"
+                    }else if(res.data.data[i].isPublic ==  2){
+                        res.data.data[i].isPublic = "对所有公开"
+                    }
+
+                    if(res.data.data[i].dilivery == "true"){
+                        res.data.data[i].dilivery = true;
+                    }else if(res.data.data[i].dilivery == "false"){
+                        res.data.data[i].dilivery = false;
+                    }
+                }
+                this.mainResume = {
+                    name:data.name,
+                    sex:data.sex,
+                    age:this.getAge(data.birthDate),
+                    workTime:'',
+                    address:data.address,
+                    position:data.workExperiencesList[0].position,
+                    companyName:data.workExperiencesList[0].companyName,
+                    isPublic:data.isPublic,
+                    id:data.id
+                }
+                this.resumeData = res.data.data;
+            } 
+        });
+    },
+    //得到投递的简历
+    getDeliveryResume(){
+        let params = {
+            id:localStorage.getItem("id")
+        }
+        getDeliveryResume(params).then(res=>{
+            this.deliveryData = res.data.data;
+        });
+    },
+    changPublic(resume){
+        updatePublic(resume).then(res=>{
+            if(res.data.status){
+                 this.$message({
+                    type: 'info',
+                    message: res.data.data,
+                    duration:800
+                });    
+            }
+        });
+    },
+    changeDilivery(resume){
+        let params = {
+            dilivery:resume.dilivery,
+            id:resume.id,
+            jobSeekerId:resume.jobSeekerId
+        };
+        updateDilivery(params).then(res=>{
+            if(res.data.status){
+                this.$message({
+                    type: 'info',
+                    message: res.data.data,
+                    duration:800
+                }); 
+                this.getAllByJobSeekerId();   
+            }
+        });
+    },
+    getAge(brithDate){
+        var NowDate= new Date().getTime();
+        let brith = (new Date(brithDate)).getTime();
+        let timeDifference = Number(NowDate)-Number(brith); 
+        let age= parseInt(timeDifference/(1000*60*60*24*365));
+        return age+'岁';
+    },
+    getMyCollectionRecruits(){
+        let params ={
+            id:localStorage.getItem("id")
+        };
+        getMyCollectionRecruits(params).then(res=>{
+            this.collectionData = res.data.data;
+        });
+    },
+    selectedjobOrCompany(row, column, cell, event){
+        // console.log(row);
+        var columnName = column.label;//列名
+        if(columnName == '公司名'){
+            this.$router.push({
+                path: 'companyDetails', 
+                name: 'companyDetails',
+                params: { 
+                    companyId: row.companyId, 
+                }
+            })
+
+        }else if(columnName == "职位名"){
+            this.$router.push({
+                path: 'jobDetails', 
+                name: 'jobDetails',
+                params: { 
+                    jobId: row.id,
+                    companyId: row.companyId,  
+                }
+            })
+        }
+    },
+    selectedDelivery(row, column, cell, event){
+        console.log(row);
+        var columnName = column.label;//列名
+        if(columnName == '简历'){
+            this.$router.push({
+                path: 'recruitEditor', 
+                name: 'recruitEditor',
+                params: { 
+                    resumeId:row.resumeId,
+                }
+            })
+
+        }else if(columnName == "职位"){
+            this.$router.push({
+                path: 'jobDetails', 
+                name: 'jobDetails',
+                params: { 
+                    jobId: row.recruitId,
+                    companyId: row.companyId,  
+                }
+            })
+        }
+    },
+    deleteCollectionResume(recruit){
+        this.$confirm('此操作将删除该收藏, 是否删除?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+            let recruitId = recruit.id;
+            let jobSeekerId = localStorage.getItem("id");
+            deleteCollectionRecruit(recruitId,jobSeekerId).then(res=>{
+                if(res.data.status){
+                    this.$message({
+                        type: 'success',
+                        message: res.data.data,
+                        duration:800
+                    });
+                    this.getMyCollectionRecruits();
+                }
+            })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除',
+            duration:800
+          });          
+        })
+    },
+    /*安全中心*/
+    /*修改用户名*/
+    updateUserName(){
+        updateUserName(this.user).then(res=>{
+            this.$message({
+                type: 'info',
+                message: res.data.data,
+                duration:800
+            });     
+            this.userNameDialog = false;
+        });
+    },
+    /*修改密码*/
+    updatePassword(){
+        this.changePasswordParams.jobSeekerId = localStorage.getItem("id");
+        updatePassword(this.changePasswordParams).then(res=>{
+            this.$message({
+                type: 'info',
+                message: res.data.data,
+                duration:800
+            }); 
+            this.passwordDialog = false;
+        });
+    },
+    /*修改电话*/
+    updatePhoneNumber(){
+        updatePhoneNumber(this.user).then(res=>{
+            this.$message({
+                type: 'info',
+                message: res.data.data,
+                duration:800
+            }); 
+             this.phoneNumberDialog = false;
+        });
+    },
+    /*修改邮箱*/
+    updateEmail(){
+        updateEmail(this.user).then(res=>{
+            this.$message({
+                type: 'info',
+                message: res.data.data,
+                duration:800
+            }); 
+            this.emailDialog = false;
+        });
+    },
+  },
+  mounted(){
+    this.getUserInfo();
+    this.getAllByJobSeekerId();
+    this.getDeliveryResume();
   }
 }
 </script>

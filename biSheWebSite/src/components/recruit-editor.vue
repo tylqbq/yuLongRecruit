@@ -275,28 +275,28 @@
             </div>
             <div class="content-editor" v-else>
                 <el-form ref="form" :model="jobIntention" label-width="120px" label-position="left">
-                    <el-form-item label="期望薪资：">
+                    <el-form-item label="期望薪资">
                         <el-input v-model="jobIntention.salary"></el-input>
                     </el-form-item>
-                    <el-form-item label="地点：">
+                    <el-form-item label="地点">
                         <el-input v-model="jobIntention.workPlace">
                             <el-button slot="append" icon="el-icon-search" @click="citySelectedDialogVisible = true;">
                             </el-button>
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="职能：">
+                    <el-form-item label="职能">
                         <el-input v-model="jobIntention.function"></el-input>
                     </el-form-item>
-                    <el-form-item label="职位：">
+                    <el-form-item label="职位">
                         <el-input v-model="jobIntention.position"></el-input>
                     </el-form-item>
-                    <el-form-item label="行业：">
+                    <el-form-item label="行业">
                         <el-input v-model="jobIntention.industry"></el-input>
                     </el-form-item>
                     <el-form-item label="个人标签">
                         <el-input v-model="jobIntention.industryLabel"></el-input>
                     </el-form-item>
-                    <el-form-item label="自我评价：">
+                    <el-form-item label="自我评价">
                         <el-input type="textarea"  v-model="jobIntention.introduction"  placeholder="自我评价/1000字以内"
                         :rows="5"  resize="none"></el-input>
                     </el-form-item>
@@ -320,13 +320,11 @@
                 <p>完善工作经验，展现工作内容及能力，让HR更了解你！</p>
             </div> -->
             <div class="content" v-if="!workExperienceEditor">
-                <div class="line-half"><span class="ti">时间：</span><span class="de">2017/7-至今</span></div>
-                <div class="line-half"><span class="ti">公司:</span><span  class="de">重庆玖舆博泓科技有限公司    </span></div>
-                <div class="line-half"><span class="ti">职能/职位：</span><span  class="de">Web前端开发工程师</span></div>
-                <div class="line-half"><span class="ti">信息：</span><span  class="de">计算机软件 | 民营公司 | 应用开发</span></div>
-                <div class="line-area"><span class="ti">工作描述:</span><span  class="de">负责前端页面构建、与后台交互
-                    负责前端页面构建、与后台交互负责前端页面构建、与后台交互负责前端页面构建、与后台交互负责前端页面构建、与后台交互
-                    负责前端页面构建、与后台交互负责前端页面构建、与后台交互负责前端页面构建、与后台交互</span></div>
+                <div class="line-half"><span class="ti">时间：</span><span class="de">{{workExperience.startDate}}至{{workExperience.endDate}}</span></div>
+                <div class="line-half"><span class="ti">公司:</span><span  class="de">{{workExperience.companyName}}</span></div>
+                <div class="line-half"><span class="ti">职能/职位：</span><span  class="de">{{workExperience.position}}</span></div>
+                <div class="line-half"><span class="ti">信息：</span><span  class="de">{{workExperience.industry}} | {{workExperience.companyType}} | {{workExperience.function}}</span></div>
+                <div class="line-area"><span class="ti">工作描述:</span><span  class="de">{{workExperience.workDetails}}</span></div>
             </div>
             <div class="content-editor" v-else>
                 <el-form ref="form" :model="workExperience" label-width="120px" label-position="left">
@@ -336,13 +334,13 @@
                         </el-col>
                         <el-col style="text-align: center;" :span="2">-</el-col>
                         <el-col :span="11">
-                        <el-date-picker type="date" placeholder="选择结束日期" v-model="workExperience.endtDate" style="width: 100%;"></el-date-picker>
+                        <el-date-picker type="date" placeholder="选择结束日期" v-model="workExperience.endDate" style="width: 100%;"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item label="公司">
                         <el-input v-model="workExperience.companyName"></el-input>
                     </el-form-item>
-                    <el-form-item label="职能：">
+                    <el-form-item label="职能">
                         <el-input v-model="workExperience.function"></el-input>
                     </el-form-item>
                     <el-form-item label="行业">
@@ -380,7 +378,7 @@
                 <p>完善工作经验，展现工作内容及能力，让HR更了解你！</p>
             </div> -->
             <div class="content" v-if="!projectExperienceEditor">
-                <div class="line-half"><span class="ti">时间：</span><span class="de">{{projectExperience.startDate}}-{{projectExperience.endtDate}}</span></div>
+                <div class="line-half"><span class="ti">时间：</span><span class="de">{{projectExperience.startDate}} 至 {{projectExperience.endDate}}</span></div>
                 <div class="line-half"><span class="ti">项目名称：</span><span class="de">{{projectExperience.projectName}}</span></div>
                 <div class="line-area"><span class="ti">项目描述:</span><span  class="de">{{projectExperience.projectDetails}}</span></div>
                 <div class="line-area"><span class="ti">责任描述：</span><span  class="de">{{projectExperience.dutyDetails}}</span></div>
@@ -396,19 +394,18 @@
                         </el-col>
                         <el-col style="text-align: center;" :span="2">-</el-col>
                         <el-col :span="11">
-                        <el-date-picker type="date" placeholder="选择结束日期" v-model="projectExperience.endtDate" style="width: 100%;"></el-date-picker>
+                        <el-date-picker type="date" placeholder="选择结束日期" v-model="projectExperience.endDate" style="width: 100%;"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item label="项目名称">
                         <el-input v-model="projectExperience.projectName"></el-input>
                     </el-form-item>
                     <el-form-item label="项目描述">
-                        <el-input type="textarea" v-model="workExperience.projectDetails" :rows="5"  resize="none"></el-input>
+                        <el-input type="textarea" v-model="projectExperience.projectDetails" :rows="5"  resize="none"></el-input>
                     </el-form-item>
                     <el-form-item label="责任描述">
-                        <el-input type="textarea" v-model="workExperience.dutyDetails" :rows="5"  resize="none"></el-input>
+                        <el-input type="textarea" v-model="projectExperience.dutyDetails" :rows="5"  resize="none"></el-input>
                     </el-form-item>
-                   
                     <el-form-item>
                         <el-button type="primary" @click="projectExperienceOnSubmit">保存</el-button>
                         <el-button @click="projectExperienceEditor=false">取消</el-button>
@@ -420,14 +417,11 @@
         <!--教育经历-->
         <div class="education-experience block">
             <strong class="hd"><span class="icon icon-education"></span>教育经历<span class="icon-write" @click="educationExperienceEditor=true"></span></strong>
-            <!-- <div class="no">
-                <p>完善工作经验，展现工作内容及能力，让HR更了解你！</p>
-            </div> -->
             <div class="content" v-if="!educationExperienceEditor">
-                <div class="line-half"><span class="ti">时间：</span><span class="de">2017/7-至今</span></div>
-                <div class="line-half"><span class="ti">学校：</span><span class="de">重庆邮电大学</span></div>
-                <div class="line-half"><span class="ti">专业:</span><span  class="de">计算机科学与技术</span></div>
-                <div class="line-half"><span class="ti">学历：</span><span  class="de">本科</span></div>
+                <div class="line-half"><span class="ti">时间：</span><span class="de">{{educationExperience.startDate}} 至 {{educationExperience.endDate}}</span></div>
+                <div class="line-half"><span class="ti">学校：</span><span class="de">{{educationExperience.school}}</span></div>
+                <div class="line-half"><span class="ti">专业:</span><span  class="de">{{educationExperience.profession}}</span></div>
+                <div class="line-half"><span class="ti">学历：</span><span  class="de">{{educationExperience.education}}</span></div>
             </div>
             <div class="content-editor" v-else>
                 <el-form ref="form" :model="educationExperience" label-width="120px" label-position="left">
@@ -437,7 +431,7 @@
                         </el-col>
                         <el-col style="text-align: center;" :span="2">-</el-col>
                         <el-col :span="11">
-                        <el-date-picker type="date" placeholder="选择结束日期" v-model="educationExperience.endtDate" style="width: 100%;"></el-date-picker>
+                        <el-date-picker type="date" placeholder="选择结束日期" v-model="educationExperience.endDate" style="width: 100%;"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item label="学校：">
@@ -468,9 +462,9 @@
             </div> -->
             <h1 class="st">校内荣誉<span class="icon-write" @click="schoolHonorEditor=true"></span></h1>
             <div class="content" v-if="!schoolHonorEditor">
-                <div class="line"><span class="ti">时间：</span><span class="de">2017/7-至今</span></div>
-                <div class="line-half"><span class="ti">名称：</span><span class="de">重庆邮电大学</span></div>
-                <div class="line-half"><span class="ti">级别:</span><span  class="de">计算机科学与技术</span></div>
+                <div class="line"><span class="ti">时间：</span><span class="de">{{schoolHonor.startDate}}</span></div>
+                <div class="line-half"><span class="ti">名称：</span><span class="de">{{schoolHonor.prizeName}}</span></div>
+                <div class="line-half"><span class="ti">级别:</span><span  class="de">{{schoolHonor.level}}</span></div>
             </div>
             <div class="content-editor" v-else>
                 <el-form ref="form" :model="schoolHonor" label-width="120px" label-position="left">
@@ -492,9 +486,9 @@
 
             <h1 class="st">校内职务<span class="icon-write" @click="schoolDutiesEditor=true"></span></h1>
             <div class="content" v-if="!schoolDutiesEditor">
-                <div class="line-half"><span class="ti">时间：</span><span class="de">2017/7-至今</span></div>
-                <div class="line-half"><span class="ti">职务：</span><span class="de">重庆邮电大学</span></div>
-                <div class="line-area"><span class="ti">职务描述:</span><span  class="de">计算机科学与技术</span></div>
+                <div class="line-half"><span class="ti">时间：</span><span class="de">{{schoolDuties.startDate}} 至 {{schoolDuties.endDate}}</span></div>
+                <div class="line-half"><span class="ti">职务：</span><span class="de">{{schoolDuties.name}}</span></div>
+                <div class="line-area"><span class="ti">职务描述:</span><span  class="de">{{schoolDuties.details}}</span></div>
             </div>
             <div class="content-editor" v-else>
                 <el-form ref="form" :model="schoolDuties" label-width="120px" label-position="left">
@@ -504,7 +498,7 @@
                         </el-col>
                         <el-col style="text-align: center;" :span="2">-</el-col>
                         <el-col :span="11">
-                        <el-date-picker type="date" placeholder="选择结束日期" v-model="schoolDuties.endtDate" style="width: 100%;"></el-date-picker>
+                        <el-date-picker type="date" placeholder="选择结束日期" v-model="schoolDuties.endDate" style="width: 100%;"></el-date-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item label="职务：">
@@ -536,7 +530,11 @@
 <script>
 import moment from "moment"
 import CitySelect from './block/citySelect';
-import {bulidResume,addAnnualIncome,addJobIntention,getResumeAllById} from '../api'
+import {
+    bulidResume,addAnnualIncome,addJobIntention,getResumeAllById,
+    updateResume,updateAnnualIncome,updateJobIntention,updateWorkExperience,
+    updateProjectExperience,updateEducationExperience,updateSchoolHonor,updateSchoolDuties
+} from '../api'
 export default {
     components: {
         CitySelect
@@ -623,58 +621,110 @@ export default {
     //个人信息保存
     infoOnSubmit(){
         this.resume.birthDate = moment(this.resume.birthDate).format('YYYY-MM-DD');
-        bulidResume(this.resume).then(res=>{
-            this.resume = res.data.data;
-            this.infoEditor = false;
+        updateResume(this.resume).then(res=>{
+            this.$message({
+                message: res.data.data,
+                type: 'success'
+            });
+            if(res.data.status){
+                this.infoEditor=false
+            }
+           
         });
+        
     },
     //当前年收入保存
     incomeOnSubmit(){
-        this.resume.birthDate = moment(this.resume.birthDate).format('YYYY-MM-DD');
-        addAnnualIncome(this.resume).then(res =>{
-            this.resume = res.data.data;
-            this.incomeEditor = false;
+        updateAnnualIncome(this.resume).then(res =>{
+           this.$message({
+                message: res.data.data,
+                type: 'success'
+            });
+            if(res.data.status){
+                this.incomeEditor=false
+            }
         })
     },
     //工作保存
     jobIntentionOnSubmit(){
-        this.jobIntention.resumeId = this.resume.id;
-        addJobIntention(this.jobIntention).then(res => {
-            console.log(res);
-            let data = res.data.data;
-            this.resume = data;
-            this.jobIntention = data.jobIntention;
-
+        updateJobIntention(this.jobIntention).then(res => {
+           this.$message({
+                message: res.data.data,
+                type: 'success'
+            });
+            if(res.data.status){
+                this.jobIntentionEditor=false
+            }
         })
     },
     //工作经验保存
     workExperienceOnSubmit(){
-
+        updateWorkExperience(this.workExperience).then(res => {
+           this.$message({
+                message: res.data.data,
+                type: 'success'
+            });
+            if(res.data.status){
+                this.workExperienceEditor=false
+            }
+        })
     },
     //项目保存
     projectExperienceOnSubmit(){
-
+        updateProjectExperience(this.projectExperience).then(res => {
+           this.$message({
+                message: res.data.data,
+                type: 'success'
+            });
+            if(res.data.status){
+                this.projectExperienceEditor=false
+            }
+        })
     },
     //教育经历
     educationExperienceOnSubmit(){
-
+        updateEducationExperience(this.educationExperience).then(res => {
+           this.$message({
+                message: res.data.data,
+                type: 'success'
+            });
+            if(res.data.status){
+                this.educationExperienceEditor=false
+            }
+        })
     },
     //校内荣誉
     schoolHonorOnSubmit(){
-
+        updateSchoolHonor(this.schoolHonor).then(res => {
+           this.$message({
+                message: res.data.data,
+                type: 'success'
+            });
+            if(res.data.status){
+                this.schoolHonorEditor=false
+            }
+        })
     },
     //校内职务
     schoolDutiesOnSubmit(){
-
+        updateSchoolDuties(this.schoolDuties).then(res => {
+           this.$message({
+                message: res.data.data,
+                type: 'success'
+            });
+            if(res.data.status){
+                this.schoolDutiesEditor=false
+            }
+        })
     },
     getResumeAll(params){
         getResumeAllById(params).then(res=>{
-            console.log(res);
             let data = res.data.data;
             this.resume = data;
             this.jobIntention =data.jobIntention;
             this.projectExperience = data.projectExperiencesList[0];
             this.workExperience = data.workExperiencesList[0];
+            this.educationExperience = data.educationExperience;
             this.schoolDuties = data.schoolDutiesList[0];
             this.schoolHonor = data.schoolHonorList[0];
         })
@@ -689,8 +739,6 @@ export default {
             id:this.routerParams.resumeId
         };
         this.getResumeAll(params);
-    }else{//新建简历
-        this.infoEditor = true;
     }
   },
   filters:{

@@ -149,7 +149,7 @@
             </div>
             <!--申请职位-->
             <div class="apply">
-                <button class="abtn"><span class="bt-f">申请职位</span></button>
+                <button class="abtn"><span class="bt-f" @click="applyRecruit">申请职位</span></button>
                 <span class="collection" @click="collection">{{collectionInfo}}</span>
             </div>
         </div>
@@ -190,8 +190,20 @@
             <div class="recommend">
                 
             </div>
-
         </div>
+
+        <el-dialog title="您尚未有简历开启快速投递，请选择" :visible.sync="resumeVisible">
+            <el-table :data="resumeData"  @current-change="handleCurrentChange">
+                <el-table-column property="name" label="名称" width="150"></el-table-column>
+                <el-table-column property="name" label="姓名" width="200"></el-table-column>
+                <el-table-column property="address" label="地址"></el-table-column>
+            </el-table>
+             <div slot="footer" class="dialog-footer">
+                <el-button @click="resumeVisible = false">取 消</el-button>
+                <el-button type="primary" @click="selectedResume">确 定</el-button>
+            </div>
+        </el-dialog>
+
     </div>
 </div>
   
@@ -199,7 +211,9 @@
 
 
 <script>
-import{ getRecruitById,getCompanyInfoById,collectionRecruit,collectionIsExist } from "../api";
+import moment from "moment";
+import{ getRecruitById,getCompanyInfoById,collectionRecruit,collectionIsExist,
+        getSpecialResumeByJobSeekerId,diliveryResume } from "../api";
 export default {
   data(){
       return{
@@ -210,7 +224,10 @@ export default {
         company:{
 
         },
-        collectionInfo:'收藏'
+        collectionInfo:'收藏',
+        resumeData:[],
+        resumeVisible:false,
+        currentSelectedResume:{},//当前选中的简历
       }
   },
   methods:{
@@ -233,6 +250,42 @@ export default {
             }
         })
     },
+    //职位申请
+    applyRecruit(){
+         if(this.iSLogin()){
+             let params = {
+                 jobSeekerId:localStorage.getItem("id")
+             }
+            getSpecialResumeByJobSeekerId(params).then(res=>{
+                if(!res.data.status){
+                    this.$message({
+                        message: res.data.data,
+                        type: 'info',
+                        duration:500
+                    });
+                }else{
+                    let resumeList = res.data.data;
+                    if(resumeList.length == 1 && resumeList[0].dilivery == "true"){
+                        //快速投递
+                        console.log('快速投递',resumeList);  
+                        let params = {
+                            jobSeekerId:localStorage.getItem("id"),
+                            resumeId:resumeList[0].id,
+                            recruitId:this.recruit.id,
+                            deliveryTime:moment(new Date()).format("YYYY-MM-DD")
+                        }
+                        this.diliveryResume(params);
+                    }else{
+                        this.resumeVisible = true;
+                        this.resumeData = resumeList;
+                    }
+                    
+                }
+            })
+            
+         }
+    },
+
     collection(){
         if(this.iSLogin()){
             let recruitId = this.routerParams.jobId;
@@ -256,7 +309,6 @@ export default {
                 duration:500
             });
         }
-        
     },
     collectionIsExist(){
         let recruitId = this.routerParams.jobId;
@@ -276,6 +328,28 @@ export default {
         }else{
             return false;
         }
+    },
+    handleCurrentChange(val) {
+        this.currentSelectedResume = val;
+    },
+    selectedResume(){
+        let params = {
+            jobSeekerId:localStorage.getItem("id"),
+            resumeId:this.currentSelectedResume.id,
+            recruitId:this.recruit.id,
+            deliveryTime:moment(new Date()).format("YYYY-MM-DD")
+        }
+        this.diliveryResume(params);
+        this.resumeVisible = false;
+    },
+    diliveryResume(params){  //选择简历投递
+        diliveryResume(params).then(res=>{
+            this.$message({
+                message: res.data.data,
+                type: 'warning',
+                duration:500
+            });
+        });
     }
   },
   mounted(){
