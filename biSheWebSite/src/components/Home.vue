@@ -27,6 +27,7 @@
   .page-content{
     clear: both;
     position: relative;
+    overflow: hidden;
   }
   .website-information{
     clear: both;
@@ -88,7 +89,7 @@
                     <el-menu-item index="regionalChannel">地区频道</el-menu-item>
                     <el-menu-item index="workplaceCounseling">职场咨询</el-menu-item>
                     <el-menu-item index="personalCenter">个人中心</el-menu-item> 
-                    <el-menu-item index="enterpriseService">企业服务</el-menu-item>
+                    <el-menu-item index="enterpriseLogin">企业服务</el-menu-item>
                   </el-menu>
               </div>
           </div>

@@ -431,9 +431,9 @@
                                 </div>
                             </div>
                             <div class="resume-scan">
-                                <div class="scan"><span class="kan">谁看过我<em>0</em></span></div>
-                                <div class="scan"><span class="delivery"> 我的申请<em>0</em></span></div>
-                                <div class="scan"><span class="collection">我的收藏<em>0</em></span></div>
+                                <div class="scan"><span class="kan"@click="selectedMenu('3')">谁看过我<em>0</em></span></div>
+                                <div class="scan"><span class="delivery" @click="selectedMenu('5')"> 我的申请<em>{{deliveryCount}}</em></span></div>
+                                <div class="scan"><span class="collection" @click="selectedMenu('4')">我的收藏<em>{{collectionCount}}</em></span></div>
                             </div>
                         </div>
                     </div>
@@ -722,7 +722,7 @@
 <script>
 import {getUserInfoById,getAllByJobSeekerId,deleteresume,
 getMyCollectionRecruits,updatePublic,updateDilivery,deleteCollectionRecruit,getDeliveryResume,
-updateUserName,updatePassword,updatePhoneNumber,updateEmail} from "../api";
+updateUserName,updatePassword,updatePhoneNumber,updateEmail,deleteDiliveryResume} from "../api";
 import moment from "moment";
 export default {
   data(){
@@ -774,7 +774,9 @@ export default {
             oldPassword:'',
             newPassword:'',
             jobSeekerId:''
-        }
+        },
+        deliveryCount:0,
+        collectionCount:0
     }
   },
   methods:{
@@ -846,7 +848,28 @@ export default {
         });
     },
     deleteDeliveryResume(deliveryResume){
-
+        this.$confirm('此操作将删除该申请, 是否删除?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+            deleteDiliveryResume(deliveryResume).then(res=>{
+                if(res.data.status){
+                    this.$message({
+                        type: 'success',
+                        message: res.data.data,
+                        duration:800
+                    });
+                    this.getDeliveryResume();
+                }
+            });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除',
+            duration:800
+          });          
+        })
     },
     getUserInfo(){
         let params ={
@@ -900,6 +923,7 @@ export default {
         }
         getDeliveryResume(params).then(res=>{
             this.deliveryData = res.data.data;
+            this.deliveryCount = res.data.data.length;
         });
     },
     changPublic(resume){
@@ -943,6 +967,7 @@ export default {
         };
         getMyCollectionRecruits(params).then(res=>{
             this.collectionData = res.data.data;
+            this.collectionCount = res.data.data.length;
         });
     },
     selectedjobOrCompany(row, column, cell, event){

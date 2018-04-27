@@ -130,7 +130,6 @@
         font-size: 20px;
         font-weight: bold;
         color: #ff6000;
-        // text-align:center;
         vertical-align: baseline;
         padding: 0px 25px;
         margin:0 auto;

@@ -9,7 +9,8 @@ const jobSearch = r => require.ensure([], () => r(require('../components/job-sea
 const personalCenter = r => require.ensure([], () => r(require('../components/personal-center')), 'personalCenter')
 const regionalChannel = r => require.ensure([], () => r(require('../components/regional-channel')), 'regionalChannel')
 const workplaceCounseling = r => require.ensure([], () => r(require('../components/workplace-counseling')), 'workplaceCounseling')
-const enterpriseService = r => require.ensure([], () => r(require('../components/enterprise-service')), 'enterpriseService')
+const enterpriseLogin = r => require.ensure([], () => r(require('../components/enterprise/enterprise-login')), 'enterpriseLogin')
+const enterpriseRegister = r => require.ensure([], () => r(require('../components/enterprise/enterprise-register')), 'enterpriseRegister')
 const companyDetails =  r => require.ensure([], () => r(require('../components/company-details')), 'companyDetails')
 const jobDetails =  r => require.ensure([], () => r(require('../components/job-details')), 'jobDetails')
 const recruitEditor =  r => require.ensure([], () => r(require('../components/recruit-editor')), 'recruitEditor')
@@ -45,9 +46,13 @@ const routes = [
         component: workplaceCounseling
       },
       {
-        path: 'enterpriseService',
-        component: enterpriseService
+        path: 'enterpriseLogin',
+        component: enterpriseLogin
       },{
+        path: 'enterpriseRegister',
+        component: enterpriseRegister
+      },
+      {
         name:'companyDetails',   
         path:'companyDetails',
         component:companyDetails

@@ -179,4 +179,12 @@ export const diliveryResume = (params) => axios.post(baseUrl+"resume/diliveryRes
  */
 export const getDeliveryResume = (params) => axios.post(baseUrl+"resume/getDeliveryResume",params);
 
+/**
+ * 删除投递的简历
+ */
+export const deleteDiliveryResume = (params) => axios.post(baseUrl+"resume/deleteDiliveryResume",params);
 
+/**
+ * 公司注册
+ */
+export const registerCompany = (params) => axios.post(baseUrl+"company/registerCompany",params);

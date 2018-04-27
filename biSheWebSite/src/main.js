@@ -3,6 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import './assets/common.less'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 import moment from "moment"
 import router from './router'
 import axios from 'axios'

@@ -145,6 +145,8 @@
     .item-submit{
         margin-top:1rem;
         .el-button--primary {
+            width:100%;
+            height:40px;
             background-color: rgba(255, 140, 0, 0.9);
             border-color: rgba(255, 140, 0, 1);
             &:hover{
