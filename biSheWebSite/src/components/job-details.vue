@@ -267,11 +267,11 @@ export default {
                     let resumeList = res.data.data;
                     if(resumeList.length == 1 && resumeList[0].dilivery == "true"){
                         //快速投递
-                        console.log('快速投递',resumeList);  
                         let params = {
                             jobSeekerId:localStorage.getItem("id"),
                             resumeId:resumeList[0].id,
                             recruitId:this.recruit.id,
+                            companyId:this.company.id,
                             deliveryTime:moment(new Date()).format("YYYY-MM-DD")
                         }
                         this.diliveryResume(params);

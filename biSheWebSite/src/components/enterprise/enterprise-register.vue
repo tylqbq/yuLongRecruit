@@ -178,9 +178,9 @@ export default {
             }
         };
       return{
-        registerBlock:true,
+        registerBlock:false,
         companyInfoBlock:false,
-        uploadBLock:false,
+        uploadBLock:true,
         stepActive:1,
         company:{
             businessLicense:'',
@@ -294,6 +294,10 @@ export default {
                 });
             },
             success: function(data){
+                self.$message({
+                    message: "上传成功",
+                    type: 'sucess'
+                });
                 self.company.businessLicense = data.linkurl;
                 self.loading.close();
             },
@@ -309,7 +313,7 @@ export default {
     },
     registerCompany(){
         if(this.company.businessLicense == null || this.company.businessLicense == ""){
-             this.$message({
+            this.$message({
                 message: "请上传公司营业执照",
                 type: 'warning'
             });

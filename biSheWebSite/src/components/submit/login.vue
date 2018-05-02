@@ -316,7 +316,8 @@ export default {
                         let data = res.data.data;
                         if(res.data.status){
                             localStorage.setItem("userName", data.name);
-					        localStorage.setItem("id",data.id);
+                            localStorage.setItem("id",data.id);
+                            localStorage.setItem("type","jobSeeker");
                             window.location.href = 'index.html';
                         }else{
                             alert(res.data.message);

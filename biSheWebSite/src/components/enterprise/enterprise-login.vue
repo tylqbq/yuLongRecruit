@@ -108,6 +108,7 @@
 </template>
 
 <script>
+import {loginCompany} from "../../api"
 export default {
   data(){
       var captchaPass = (rule, value, callback) => { //图形验证码校验
@@ -124,7 +125,10 @@ export default {
             }
         };
       return {
-          form:{},
+          form:{
+              userName:'',
+              password:''
+          },
           formRules:{
                 userName: [
                     { required: true, message: '请输入企业用户名', trigger: 'blur' }
@@ -155,7 +159,26 @@ export default {
     login(){
         this.$refs["form"].validate((valid) => {
             if (valid) {
-
+                let params = {
+                    userName:this.form.userName,
+                    password:this.form.password,
+                };
+                loginCompany(params).then(res=>{
+                    let data = res.data.data;
+                    if(res.data.status){
+                        localStorage.setItem("userName", data.member);
+                        localStorage.setItem("id",data.id);
+                        localStorage.setItem("companyId",data.companyId);
+                        localStorage.setItem("type","companyUser");
+                        this.$router.push("enterpriseService");
+                    }else{
+                        this.$message({
+                            message: res.data.data,
+                            type: 'error',
+                            duration:800
+                        });
+                    }
+                });
             } else {
                 return false;
             }

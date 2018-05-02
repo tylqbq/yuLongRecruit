@@ -555,6 +555,7 @@ export default {
                 if(res.data.status){
                     localStorage.setItem("userName", data.name);
                     localStorage.setItem("id",data.id);
+                    localStorage.setItem("type","jobSeeker");
                     window.location.reload();
                 }else{
                     alert(data.message);
@@ -565,13 +566,15 @@ export default {
             accountLogout().then(res =>{
                 localStorage.removeItem("userName");
                 localStorage.removeItem("id");
+                localStorage.removeItem("type");
                 window.location.reload();
             });
         }
     },
     mounted(){
         let status = localStorage.getItem("userName");
-        if(status != null){ //已登录
+        let type = localStorage.getItem("type");
+        if(status != null && type=="jobSeeker"){ //已登录
             this.isShowLoginPart = false;
         }
     }

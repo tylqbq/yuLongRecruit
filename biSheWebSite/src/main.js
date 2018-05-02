@@ -20,22 +20,33 @@ Vue.config.productionTip = false
 Vue.prototype.$ajax = axios
 /* eslint-disable no-new */
 
-// router.beforeEach((to, from, next) => {
-//   let status = localStorage.getItem("userName");
-//   if(to.path == '/personalCenter'){
-//     if (status == "" || status == null) {  // 判断用户密码状态
-//       // next({
-//       //   path: 'register.html' 
-//       // })
-//       alert("请先登录！");
-//       // window.location.href = "register.html";
-//     }else {
-//         next();
-//     }
-//   }else {
-//         next();
-//     }
-// })
+router.beforeEach((to, from, next) => {
+  let status = localStorage.getItem("userName");
+  let type = localStorage.getItem("type");
+  if(to.path == '/personalCenter'){
+    if (status == "" || status == null) {  // 判断用户密码状态
+      alert("请先登录！");
+    }else {
+      if(type == "jobSeeker"){
+         next();
+      }else{
+        alert("您是企业用户，无法使用个人中心");
+      }
+    }
+  }else if(to.path == '/enterpriseLogin'){
+    if(status == "" || status == null){
+         next();
+    }else{
+      if(type == "companyUser"){
+         next('/enterpriseService');
+      }else{
+        next();
+      }
+    }
+  }else{
+    next();
+  }
+})
 
 new Vue({
   el: '#app',

@@ -184,7 +184,60 @@ export const getDeliveryResume = (params) => axios.post(baseUrl+"resume/getDeliv
  */
 export const deleteDiliveryResume = (params) => axios.post(baseUrl+"resume/deleteDiliveryResume",params);
 
+
+
+
 /**
  * 公司注册
  */
 export const registerCompany = (params) => axios.post(baseUrl+"company/registerCompany",params);
+
+/**
+ * 公司登录
+ */
+export const loginCompany = (params) => axios.post(baseUrl+"company/loginCompany",params);
+
+/**
+ * 公司信息修改
+ */
+export const updateCompanyInfo = (params) => axios.post(baseUrl+"company/updateCompanyInfo",params);
+
+/**
+ * 公司用户信息获取
+ */
+export const getCompanyUserInfo = (params) => axios.post(baseUrl+"company/getCompanyUserInfo",params);
+
+/**
+ * 公司发布职位
+ */
+export const buildRecruit = (params) => axios.post(baseUrl+"recruit/buildRecruit",params);
+
+/**
+ * 删除发布的职位
+ */
+export const deleteRecruitById = (params) => axios.post(baseUrl+"recruit/deleteRecruitById",params);
+
+/**
+ * 公司收到的简历
+ */
+export const getCompanyDeliveryResume = (params) => axios.post(baseUrl+"company/getDeliveryResume",params);
+
+/**
+ * 公司用户修改昵称
+ */
+export const updateMember = (params) => axios.post(baseUrl+"company/updateMember",params);
+
+/**
+ * 公司用户修改密码
+ */
+export const updateCompanyUserPassword = (params) => axios.post(baseUrl+"company/updatePassword",params);
+
+/**
+ * 公司用户修改手机
+ */
+export const updateCompanyUserPhoneNumber = (params) => axios.post(baseUrl+"company/updatePhoneNumber",params);
+
+/**
+ * 公司用户修改邮箱
+ */
+export const updateCompanyUserEmail = (params) => axios.post(baseUrl+"company/updateEmail",params);

@@ -11,6 +11,7 @@ const regionalChannel = r => require.ensure([], () => r(require('../components/r
 const workplaceCounseling = r => require.ensure([], () => r(require('../components/workplace-counseling')), 'workplaceCounseling')
 const enterpriseLogin = r => require.ensure([], () => r(require('../components/enterprise/enterprise-login')), 'enterpriseLogin')
 const enterpriseRegister = r => require.ensure([], () => r(require('../components/enterprise/enterprise-register')), 'enterpriseRegister')
+const enterpriseService = r => require.ensure([], () => r(require('../components/enterprise/enterprise-service')), 'enterpriseService')
 const companyDetails =  r => require.ensure([], () => r(require('../components/company-details')), 'companyDetails')
 const jobDetails =  r => require.ensure([], () => r(require('../components/job-details')), 'jobDetails')
 const recruitEditor =  r => require.ensure([], () => r(require('../components/recruit-editor')), 'recruitEditor')
@@ -51,6 +52,10 @@ const routes = [
       },{
         path: 'enterpriseRegister',
         component: enterpriseRegister
+      },
+      {
+        path: 'enterpriseService',
+        component: enterpriseService
       },
       {
         name:'companyDetails',   
