@@ -12,10 +12,12 @@ const workplaceCounseling = r => require.ensure([], () => r(require('../componen
 const enterpriseLogin = r => require.ensure([], () => r(require('../components/enterprise/enterprise-login')), 'enterpriseLogin')
 const enterpriseRegister = r => require.ensure([], () => r(require('../components/enterprise/enterprise-register')), 'enterpriseRegister')
 const enterpriseService = r => require.ensure([], () => r(require('../components/enterprise/enterprise-service')), 'enterpriseService')
+const resumeReceivedDetails = r => require.ensure([], () => r(require('../components/enterprise/resume-received-details')), 'resumeReceivedDetails')
 const companyDetails =  r => require.ensure([], () => r(require('../components/company-details')), 'companyDetails')
 const jobDetails =  r => require.ensure([], () => r(require('../components/job-details')), 'jobDetails')
 const recruitEditor =  r => require.ensure([], () => r(require('../components/recruit-editor')), 'recruitEditor')
 const recruitBuild =  r => require.ensure([], () => r(require('../components/recruit-bulid')), 'recruitBuild')
+const resumeSearch =  r => require.ensure([], () => r(require('../components/resume-search')), 'resumeSearch')
 
 const routes = [
   {
@@ -73,6 +75,16 @@ const routes = [
         name:'recruitBuild', 
         path:'recruitBuild',
         component:recruitBuild
+      }
+      ,{
+        name:'resumeReceivedDetails', 
+        path:'resumeReceivedDetails',
+        component:resumeReceivedDetails
+      }
+      ,{
+        name:'resumeSearch', 
+        path:'resumeSearch',
+        component:resumeSearch
       }
     ]
   },

@@ -241,3 +241,10 @@ export const updateCompanyUserPhoneNumber = (params) => axios.post(baseUrl+"comp
  * 公司用户修改邮箱
  */
 export const updateCompanyUserEmail = (params) => axios.post(baseUrl+"company/updateEmail",params);
+
+
+/**
+ * 简历综合查询
+ */
+export const searchResume = (params) => axios.post(baseUrl+"resume/searchResume",params);
+

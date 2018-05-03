@@ -187,6 +187,9 @@
             background-color: #fff;
         }
     }
+    .el-form-item{
+        text-align:right;
+    }
 }
 
 </style>
@@ -346,28 +349,19 @@
                                 <el-table-column
                                 prop="positionName"
                                 label="职位"
-                                width="250">
+                                width="320">
                                 <template slot-scope="scope"><a href="#">{{ scope.row.positionName}}</a></template>  
                                 </el-table-column>
                                 <el-table-column
                                 prop="resumeName"
                                 label="简历"
-                                width="220">
+                                width="260">
                                  <template slot-scope="scope"><a href="#">{{ scope.row.resumeName}}</a></template>  
                                 </el-table-column>
                                 <el-table-column
                                     prop="deliveryTime"
                                     label="投递时间"
-                                    width="210">
-                                    
-                                </el-table-column>
-
-                                <el-table-column
-                                label="操作"
-                                width="150">
-                                <template slot-scope="scope">
-                                    <el-button type="text" size="small">删除</el-button>
-                                </template>
+                                    width="250">
                                 </el-table-column>
                             </el-table>
                         </div>
@@ -391,7 +385,7 @@
                     </div>
                     <div class="sbox">
                         <div class="s s1">
-                            <h2><span class="icon icon_user"></span>用户名</h2>
+                            <h2><span class="icon icon_user"></span>会员名</h2>
                             <span class="sp1">{{user.member}}</span>
                             <span class="change" @click="userNameDialog=true">修改</span>
                         </div>
@@ -592,7 +586,6 @@ export default {
             block_2:false,
             block_3:false,
             block_4:false,
-            block_5:false,
             block_6:false, 
         },
         newRecruit:{
@@ -622,9 +615,14 @@ export default {
             var curIndex = String(i).split("_")[1];
             if(curIndex == index){
                 this.block[i] = true;
-                
             }else{
                 this.block[i] = false;
+            }
+            if(index == 4){
+                this.$router.push({
+                    path: 'resumeSearch', 
+                    name: 'resumeSearch',
+                })
             }
         }
     },
@@ -726,7 +724,6 @@ export default {
         }
     },
     receivedResumeClick(row, column, cell, event){
-        console.log(row);
         var columnName = column.label;//列名
         if(columnName == "职位"){
             this.$router.push({
@@ -735,6 +732,14 @@ export default {
                 params: { 
                     jobId: row.recruitId,
                     companyId: row.companyId,  
+                }
+            })
+        }else if(columnName == "简历"){
+            this.$router.push({
+                path: 'resumeReceivedDetails', 
+                name: 'resumeReceivedDetails',
+                params: { 
+                    resumeId: row.resumeId,
                 }
             })
         }
