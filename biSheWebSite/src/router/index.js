@@ -19,6 +19,8 @@ const recruitEditor =  r => require.ensure([], () => r(require('../components/re
 const recruitBuild =  r => require.ensure([], () => r(require('../components/recruit-bulid')), 'recruitBuild')
 const resumeSearch =  r => require.ensure([], () => r(require('../components/resume-search')), 'resumeSearch')
 
+const articleEditor =  r => require.ensure([], () => r(require('../components/article/article-editor')), 'articleEditor')
+const articleDetails =  r => require.ensure([], () => r(require('../components/article/article-details')), 'articleDetails')
 const routes = [
   {
     path: '',
@@ -85,6 +87,16 @@ const routes = [
         name:'resumeSearch', 
         path:'resumeSearch',
         component:resumeSearch
+      }
+      ,{
+        name:'articleEditor', 
+        path:'articleEditor',
+        component:articleEditor
+      }
+      ,{
+        name:'articleDetails', 
+        path:'articleDetails',
+        component:articleDetails
       }
     ]
   },

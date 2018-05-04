@@ -123,22 +123,14 @@
         <div class="today-hot">
             <div class="th-title"><div class="icon"></div></div>
             <ol class="article-ol">
-                <li class="aol">实锤：投简历一定要懂的5个“潜规则</li>
-                <li class="aol">经历了八个月空白期，还要不要裸辞？</li>
-                <li class="aol">跳得好不如嫁得好，同意吗？</li>
-                <li class="aol">这样写简历，面试机会更多！</li>
-                <li class="aol">达不到招聘要求，我的问题还是公司的问题？</li>
+                <li class="aol" v-for="item in todayHotList" :key="item.id" @click="articleDetail(item)">{{item.title}}</li>
             </ol>
         </div>
         <!--热门文章-->
         <div class="hot-article">
             <div class="ha-title"></div>
             <ol class="article-ol">
-                <li class="aol">1分钟，教你最有效的投简历规律！</li>
-                <li class="aol">解答面试经典51问，帮你搞定面试官</li>
-                <li class="aol">资深猎头开讲：你离高薪只差这步！</li>
-                <li class="aol">好工作、好职位、好薪水为何与你无关</li>
-                <li class="aol">管住嘴，面试有些话别乱说！</li>
+                <li class="aol" v-for="item in hotArticle" :key="item.id"@click="articleDetail(item)">{{item.title}}</li>
             </ol>
         </div>
         <div style="clear: both"></div>
@@ -150,11 +142,7 @@
                     <p class='jt'>面试</p>
                 </div>
                  <ol class="js-ol">
-                    <li class="jol">HR，你到底要什么样的求职者？！</li>
-                    <li class="jol">这样写简历，面试机会更多！</li>
-                    <li class="jol">不是公司不招人，是你不达标</li>
-                    <li class="jol">面试前武装到心脏！</li>
-                    <li class="jol">为何我的面试无一失手</li>
+                    <li class="jol" v-for="item in interviewArticle" :key="item.id" @click="articleDetail(item)">{{item.title}}</li>
                 </ol>
             </div>
             <div class="js-each">
@@ -162,11 +150,7 @@
                     <p class='jt'>跳槽</p>
                 </div>
                  <ol class="js-ol">
-                    <li class="jol">HR，你到底要什么样的求职者？！</li>
-                    <li class="jol">这样写简历，面试机会更多！</li>
-                    <li class="jol">不是公司不招人，是你不达标</li>
-                    <li class="jol">面试前武装到心脏！</li>
-                    <li class="jol">为何我的面试无一失手</li>
+                     <li class="jol" v-for="item in jobHoppingArticle" :key="item.id" @click="articleDetail(item)">{{item.title}}</li>
                 </ol>
             </div>
             <div class="js-each" style="border-right:none">
@@ -174,11 +158,7 @@
                     <p class='jt'>就职</p>
                 </div>
                  <ol class="js-ol" >
-                    <li class="jol">HR，你到底要什么样的求职者？！</li>
-                    <li class="jol">这样写简历，面试机会更多！</li>
-                    <li class="jol">不是公司不招人，是你不达标</li>
-                    <li class="jol">面试前武装到心脏！</li>
-                    <li class="jol">为何我的面试无一失手</li>
+                   <li class="jol" v-for="item in entranceArticle" :key="item.id" @click="articleDetail(item)">{{item.title}}</li>
                 </ol>
             </div>
         </div>
@@ -187,11 +167,39 @@
 </template>
 
 <script>
+import {getArticleAll,getArticleById} from "../api"
 export default {
     data(){
         return{
-
+            hotArticle:[],
+            entranceArticle:[],
+            interviewArticle:[],
+            jobHoppingArticle:[],
+            todayHotList:[]
         }
+    },
+    methods:{
+        getArticleAll(){
+            getArticleAll().then(res=>{
+                this.hotArticle = res.data.data.hotArticle;
+                this.entranceArticle= res.data.data.entranceArticle;
+                this.interviewArticle= res.data.data.interviewArticle;
+                this.jobHoppingArticle= res.data.data.jobHoppingArticle;
+                this.todayHotList= res.data.data.todayHotList;
+            })
+        },
+        articleDetail(article){
+            this.$router.push({
+                path: 'articleDetails', 
+                name: 'articleDetails',
+                params: { 
+                    article:article,
+                }
+            })
+        }
+    },
+    mounted(){
+        this.getArticleAll();
     }
 }
 </script>

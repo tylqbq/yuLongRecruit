@@ -59,6 +59,13 @@ module.exports = {
             '^/resume':'/resume',
         }
       },
+      '/article':{
+        target:'http://127.0.0.1:8060',
+        changeOrigin:true,
+        pathRewrite:{
+            '^/article':'/article',
+        }
+      },
       'test':{
         target:'http://api.map.baidu.com/geocoder/v2/?ak=oH71EWAMyG50Ih83R0aTqOi5cib0IAUC&callback=renderReverse&location=39.983424,116.322987&output=json&pois=1',
         changeOrigin:true,

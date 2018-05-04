@@ -248,3 +248,19 @@ export const updateCompanyUserEmail = (params) => axios.post(baseUrl+"company/up
  */
 export const searchResume = (params) => axios.post(baseUrl+"resume/searchResume",params);
 
+
+
+/**
+ * 文章提交
+ */
+export const publishArticle = (params) => axios.post(baseUrl+"article/publishArticle",params);
+
+/**
+ * 获取文章
+ */
+export const getArticleAll = () => axios.post(baseUrl+"article/getArticleAll");
+
+/**
+ * 获取文章ById
+ */
+export const getArticleById = (params) => axios.post(baseUrl+"article/getArticleById",params);
