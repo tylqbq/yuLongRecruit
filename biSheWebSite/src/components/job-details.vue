@@ -282,8 +282,13 @@ export default {
                     
                 }
             })
-            
-         }
+         }else{
+            this.$message({
+                message: "请先登录或以求职者身份登录",
+                type: 'warning',
+                duration:500
+            });
+        }
     },
 
     collection(){
@@ -304,7 +309,7 @@ export default {
             });
         }else{
             this.$message({
-                message: "请先登录！",
+                message: "请先登录或以求职者身份登录",
                 type: 'warning',
                 duration:500
             });
@@ -323,7 +328,8 @@ export default {
     },
     iSLogin(){//判断是否登录
         let jobSeekerId = localStorage.getItem("id");
-        if(jobSeekerId != null && jobSeekerId != ""){
+        let type = localStorage.getItem("type");
+        if(jobSeekerId != null && jobSeekerId != "" && type == "jobSeeker"){
             return true;
         }else{
             return false;

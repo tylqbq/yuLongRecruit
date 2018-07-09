@@ -35,6 +35,7 @@ const routes = [
         component: index
       },
       {
+        name:'jobSearch',
         path: 'jobSearch',
         component: jobSearch
       },

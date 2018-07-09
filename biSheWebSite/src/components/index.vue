@@ -18,7 +18,7 @@
                     margin: 4rem 15%;
                     .form-option{
                         float: left;
-                        width: 776px;
+                        width: 750px;
                         height: 180px;
                         border-radius:3px;
                         background:rgba(0,0,0,0.5);
@@ -45,7 +45,7 @@
                                 height:2rem;
                                 margin:0.75rem 0;
                                 input{
-                                    width:450px;
+                                    width:424px;
                                     height:2rem;
                                     padding:0 5px;
                                     font-size:16px;
@@ -393,17 +393,17 @@
                                 </select> 
                             </div>
                             <div class="details-input details-option">
-                                <input type="text"  />
+                                <input type="text" v-model="keyWord" />
                             </div>
                             <div class="details-button details-option">
                                 <button>重庆+</button>
                             </div>
                             <div class="details-button-search details-option">
-                                <button>搜索</button>
+                                <button @click="keyWordSearch">搜索</button>
                             </div>
                         </div>
                         <div class="job-recommend">
-                            <ul class="job-recommend-ul">
+                            <ul class="job-recommend-ul" @click="industryKeyWordSearch($event)">
                                 <li class="job-recommend-option ">猜你喜欢：</li>
                                 <li class="job-recommend-option option-li">期货操盘手</li>
                                 <li class="job-recommend-option option-li">JAVA工程师</li>
@@ -432,7 +432,7 @@
                     </div>
                     <div class="resume" v-else>
                         <div class="wrap-up">
-                            <p class="title"><em class="man"></em>XXX的简历</p>
+                            <p class="title"><em class="man"></em>汤玉龙的简历</p>
                             <div class="resume-btn">
                                 <button class="btn-re">刷新简历</button>
                                 <button class="btn-edit">编辑简历</button>
@@ -445,7 +445,7 @@
                                 <p>0</p>
                                 <span>申请记录</span>
                             </div>
-                            <span class="outAccount" @click="logout">退出帐号</span>
+                            <!-- <span class="outAccount" @click="logout">退出帐号</span> -->
                         </div>
                     </div>
                 </div>
@@ -463,7 +463,7 @@
                 </ul>
             </div>
             <!--求职类别-->
-            <div class="job-search-type">
+            <div class="job-search-type" @click="industryKeyWordSearch($event)">
                 <ul class="type-ul">
                     <li class="type-ul-option option-title title-internet">互联网/电子商务</li>
                     <li class="type-ul-option option-li">前端开发</li>
@@ -489,9 +489,9 @@
                     <li class="type-ul-option option-li">房产经纪人</li>
                 </ul>
                 <ul class="type-ul">
-                    <li class="type-ul-option option-title title-realestate">房地产</li>
-                    <li class="type-ul-option option-li">造价师</li>
-                    <li class="type-ul-option option-li">规划设计</li>
+                    <li class="type-ul-option option-title title-realestate">广告/媒体</li>
+                    <li class="type-ul-option option-li">广告</li>
+                    <li class="type-ul-option option-li">文字媒体/出版</li>
                     <li class="type-ul-option option-li">房产经纪人</li>
                 </ul>
             </div>
@@ -528,6 +528,7 @@ export default {
             isShowLoginPart:true,
             isShowLogin:false,
             searchType:'全文',
+            keyWord:'',
             options:[{
                 label:'全文',
                 value:'content'
@@ -569,6 +570,40 @@ export default {
                 localStorage.removeItem("type");
                 window.location.reload();
             });
+        },
+        keyWordSearch(){
+            if(this.keyWord == ""){
+                this.$message({
+                    message: "请输入关键字",
+                    type: 'warning',
+                    duration:500
+                });
+            }else{
+                this.$router.push({
+                    path: 'jobSearch', 
+                    name: 'jobSearch',
+                    params: { 
+                        keyWord: this.keyWord,
+                    }
+                })
+            }
+        },
+        industryKeyWordSearch(e){
+            // console.log(e.target.classList);
+            let classList = e.target.classList;
+            for(let i=0;i<classList.length;i++){
+                if(classList[i] == "option-li"){
+                    let keyWord = e.target.innerHTML;
+                    this.$router.push({
+                        path: 'jobSearch', 
+                        name: 'jobSearch',
+                        params: { 
+                            keyWord: keyWord,
+                        }
+                    })
+                }
+            }
+            
         }
     },
     mounted(){

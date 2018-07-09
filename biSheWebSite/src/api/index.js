@@ -185,6 +185,10 @@ export const getDeliveryResume = (params) => axios.post(baseUrl+"resume/getDeliv
 export const deleteDiliveryResume = (params) => axios.post(baseUrl+"resume/deleteDiliveryResume",params);
 
 
+/**
+ * 根据地区随机获得招聘
+ */
+export const getRecruitByAddressRandom = (params) => axios.post(baseUrl+"recruit/getRecruitByAddressRandom",params);
 
 
 /**
@@ -241,6 +245,13 @@ export const updateCompanyUserPhoneNumber = (params) => axios.post(baseUrl+"comp
  * 公司用户修改邮箱
  */
 export const updateCompanyUserEmail = (params) => axios.post(baseUrl+"company/updateEmail",params);
+
+
+/**
+ * 根据地区随机获取五个公司的招聘
+ */
+export const getCompanyRecruitRandom = (params) => axios.post(baseUrl+"company/getCompanyRecruitRandom",params);
+
 
 
 /**

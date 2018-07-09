@@ -258,12 +258,12 @@
                         <div class="condition condition-industry">
                             <p class="condition-title">行业</p>
                             <!-- <p>{{searchParams.industry}}</p> -->
-                            <p class="condition-content">计算机软件</p>
+                            <!-- <p class="condition-content">计算机软件</p> -->
                         </div>
                         <div class="condition condition-function">
                             <p class="condition-title">职能</p>
                             <!-- <p>{{searchParams.function}}</p> -->
-                            <p class="condition-content">计算机软件</p>
+                            <!-- <p class="condition-content">计算机软件</p> -->
                         </div>
                         <div class="condition condition-search">
                            <button class="search-btn" @click="search">搜索</button>
@@ -523,7 +523,12 @@ export default {
     }
   },
   mounted(){
-      this.search();
+    let routerParams = this.$route.params;
+    console.log('参数',routerParams);
+    if(routerParams){
+        this.searchParams.keyWord = routerParams.keyWord;
+    }
+    this.search(); 
   }
 }
 </script>
